@@ -1,5 +1,7 @@
+gradle
 .gradle
 .studio
+.idea
 *.ipr
 *.iml
 *.iws

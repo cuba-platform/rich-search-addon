@@ -5,8 +5,9 @@ import com.haulmont.components.search.provider.SearchEntity;
 import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
 import com.haulmont.cuba.web.toolkit.ui.CubaSuggestionField;
-import com.haulmont.cuba.web.toolkit.ui.client.suggestionfield.CubaSuggestionFieldState;
+import com.vaadin.server.AbstractClientConnector;
 
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +69,11 @@ public class WebGlobalSearch extends WebSuggestionField implements GlobalSearch 
             super.beforeClientResponse(initial);
             if (needsToReset.getAndSet(false)) {
                 needsToReset.set(false);
-                super.updateTextPresentation(SearchEntity.EMPTY);
-                ((CubaSuggestionFieldState)createState()).text = "";
+                //FIXME: no way to reset value without reset state
+                setValue(SearchEntity.EMPTY);
+                setValue(null);
+                //FIXME: this works, but only once
+                getState().text = null;
             }
         }
     }

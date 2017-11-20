@@ -33,13 +33,13 @@ public class WebSearchSession implements SearchSession {
                     .filter(UI::isConnectorEnabled)
                     .forEach(ui-> {
                         if (ui.isAttached()) {
-                            callback.run();
+                            ui.access(callback);
                         } else {
                             ui.addAttachListener(new ClientConnector.AttachListener() {
                                 @Override
                                 public void attach(ClientConnector.AttachEvent event) {
                                     ui.removeAttachListener(this);
-                                    callback.run();
+                                    ui.access(callback);
                                 }
                             });
                         }
