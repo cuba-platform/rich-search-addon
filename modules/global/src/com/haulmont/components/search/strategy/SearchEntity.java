@@ -1,4 +1,4 @@
-package com.haulmont.components.search.provider;
+package com.haulmont.components.search.strategy;
 
 import com.haulmont.chile.core.annotations.MetaClass;
 import com.haulmont.chile.core.annotations.MetaProperty;
@@ -12,15 +12,11 @@ public class SearchEntity extends AbstractInstance implements Entity<String>, Se
 
     public static SearchEntity EMPTY = new SearchEntity(new DefaultSearchEntry(null, "", "", null));
 
-    static class SearchProviderTypeFactoryHolder {
-        static final SearchProviderTypeFactory INSTANCE = AppBeans.get(SearchProviderTypeFactory.NAME);
-    }
-
     private SearchEntry delegate;
 
     public SearchEntity() {}
 
-    public SearchEntity(SearchEntry delegate) {
+    public<T extends SearchEntry> SearchEntity(T delegate) {
         this.delegate = delegate;
     }
 
@@ -32,24 +28,14 @@ public class SearchEntity extends AbstractInstance implements Entity<String>, Se
 
     @Override
     @MetaProperty
-    public String getQueryString() {
-        return delegate.getQueryString();
-    }
-
-    @Override
-    @MetaProperty
     public String getCaption() {
         return delegate.getCaption();
     }
 
     @Override
     @MetaProperty
-    public Integer getTypeId() {
-        return delegate.getTypeId();
-    }
-
-    public SearchProviderType getType() {
-        return SearchProviderTypeFactoryHolder.INSTANCE.typeBy(delegate.getTypeId());
+    public String getStrategyName() {
+        return delegate.getStrategyName();
     }
 
     @Override
@@ -71,5 +57,9 @@ public class SearchEntity extends AbstractInstance implements Entity<String>, Se
     @Override
     public int hashCode() {
         return delegate != null ? delegate.hashCode() : 0;
+    }
+
+    public SearchEntry getDelegate() {
+        return delegate;
     }
 }

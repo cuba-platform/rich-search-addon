@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <components xmlns="http://schemas.haulmont.com/cuba/components.xsd">
     <component>
-        <name>globalSearch</name>
-        <tag>globalSearch</tag>
-        <componentLoader>com.haulmont.components.search.gui.xml.layouts.loaders.GlobalSearchLoader</componentLoader>
-        <class>com.haulmont.components.search.web.gui.components.WebGlobalSearch</class>
+        <name>richSearch</name>
+        <tag>richSearch</tag>
+        <componentLoader>com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader</componentLoader>
+        <class>com.haulmont.components.search.web.gui.components.WebRichSearch</class>
     </component>
 </components>

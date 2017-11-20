@@ -48,7 +48,6 @@ dependencies {
 def hsql = 'org.hsqldb:hsqldb:2.4.0'
 allprojects {
     ext {
-        sparkVersion = '2.2.0'
         vaadinVersion = '7.7.11.cuba.1'
     }
 }
@@ -137,21 +136,7 @@ configure(coreModule) {
 
 configure([guiModule, webModule]) {
     dependencies {
-        compile (group: 'org.apache.spark', name: 'spark-core_2.11', version: project.sparkVersion) {
-            exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-            exclude group: 'log4j', module: 'log4j'
-            exclude group: 'com.fasterxml.jackson.core', module:'jackson-core'
-            exclude group: 'com.fasterxml.jackson.core', module:'jackson-databind'
-            exclude group: 'com.fasterxml.jackson.module', module: 'jackson-module-scala_2.11'
-        }
-        compile (group: 'org.apache.spark', name: 'spark-sql_2.11', version: project.sparkVersion) {
-            exclude group: 'com.fasterxml.jackson.module', module: 'jackson-module-scala_2.11'
-            exclude group: 'com.fasterxml.jackson.core', module:'jackson-core'
-            exclude group: 'com.fasterxml.jackson.core', module:'jackson-databind'
-        }
-        compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.11', version: '2.9.1'
-        compile group: 'com.fasterxml.jackson.core', name:'jackson-core', version: '2.9.2'
-        compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version: '2.9.2'
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
         compile (group: 'com.vaadin', name: 'vaadin-server', version: project.vaadinVersion) {
             exclude(group: 'com.vaadin', module: 'vaadin-sass-compiler')
         }
@@ -219,9 +204,6 @@ configure(webModule) {
         appJars('search-global', 'search-gui', 'search-web')
     }
 }
-
-
-
 
 
 task undeploy(type: Delete, dependsOn: ':search-web:cleanConf') {

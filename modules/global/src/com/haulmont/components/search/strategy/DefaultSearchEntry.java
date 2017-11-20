@@ -1,20 +1,20 @@
-package com.haulmont.components.search.provider;
+package com.haulmont.components.search.strategy;
 
 public class DefaultSearchEntry implements SearchEntry {
     private String id;
     private String queryString;
     private String caption;
-    private Integer type;
+    private String type;
 
     public DefaultSearchEntry() {
 
     }
 
-    public DefaultSearchEntry(String id, String queryString, String caption, SearchProviderType type) {
+    public DefaultSearchEntry(String id, String queryString, String caption, String type) {
         this.id = id;
         this.queryString = queryString.toLowerCase();
         this.caption = caption;
-        this.type = type == null? -1 : type.id();
+        this.type = type;
     }
 
     @Override
@@ -23,18 +23,17 @@ public class DefaultSearchEntry implements SearchEntry {
     }
 
     @Override
-    public String getQueryString() {
-        return queryString;
-    }
-
-    @Override
     public String getCaption() {
         return caption;
     }
 
     @Override
-    public Integer getTypeId() {
+    public String getStrategyName() {
         return type;
+    }
+
+    public String getQueryString() {
+        return queryString;
     }
 
     public void setId(String id) {
@@ -49,12 +48,8 @@ public class DefaultSearchEntry implements SearchEntry {
         this.caption = caption;
     }
 
-    public void setTypeId(Integer type) {
+    public void setType(String type) {
         this.type = type;
-    }
-
-    public void setTypeId(SearchProviderType type) {
-        this.type = type.id();
     }
 
     @Override

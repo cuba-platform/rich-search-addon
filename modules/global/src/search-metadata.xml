@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
-    <datatypes>
-        <datatype id="search-provider-type"
-                  class="com.haulmont.components.search.provider.SearchProviderTypeDatatype"
-                  default="true" javaType=""/>
-    </datatypes>
     <metadata-model namespace="search"
                     root-package="com.haulmont.components.search">
-        <class>com.haulmont.components.search.provider.SearchEntity</class>
+        <class>com.haulmont.components.search.strategy.SearchEntity</class>
     </metadata-model>
 </metadata>

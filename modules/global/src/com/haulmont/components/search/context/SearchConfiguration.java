@@ -1,9 +1,10 @@
 package com.haulmont.components.search.context;
 
-import com.haulmont.components.search.provider.SearchProviderType;
+import com.haulmont.components.search.strategy.SearchStrategy;
 
-import java.util.List;
+import java.util.Map;
 
+@FunctionalInterface
 public interface SearchConfiguration {
-    List<SearchProviderType> providers();
+    Map<String, SearchStrategy> strategyProviders();
 }
