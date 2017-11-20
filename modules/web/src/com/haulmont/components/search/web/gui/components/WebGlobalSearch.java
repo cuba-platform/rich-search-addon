@@ -5,9 +5,7 @@ import com.haulmont.components.search.provider.SearchEntity;
 import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
 import com.haulmont.cuba.web.toolkit.ui.CubaSuggestionField;
-import com.vaadin.server.AbstractClientConnector;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
