@@ -1,0 +1,14 @@
+<xs:schema targetNamespace="http://schemas.haulmont.com/cuba/search.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:main="http://schemas.haulmont.com/cuba/window.xsd"
+           xmlns="http://schemas.haulmont.com/cuba/search.xsd"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:element name="globalSearch">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="main:suggestionFieldComponent" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

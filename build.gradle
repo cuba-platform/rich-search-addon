@@ -1,0 +1,248 @@
+
+buildscript {
+    ext.cubaVersion = '6.8-SNAPSHOT'
+    repositories {
+        mavenLocal()
+        
+        maven {
+            url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
+            credentials {
+                username(rootProject.hasProperty('repoUser') ? rootProject['repoUser'] : 'developer')
+                password(rootProject.hasProperty('repoPass') ? rootProject['repoPass'] : 'Haul2010')
+            }
+        }
+        
+    }
+    dependencies {
+        classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
+    }
+}
+
+def globalModule = project(':search-global')
+def coreModule = project(':search-core')
+def guiModule = project(':search-gui')
+def webModule = project(':search-web')
+
+def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
+
+
+apply(plugin: 'idea')
+apply(plugin: 'cuba')
+
+cuba {
+    artifact {
+        group = 'com.haulmont.components.search'
+        version = '0.1'
+        isSnapshot = true
+    }
+    tomcat {
+        dir = "$project.rootDir/deploy/tomcat"
+    }
+}
+
+dependencies {
+    appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
+
+}
+
+def hsql = 'org.hsqldb:hsqldb:2.4.0'
+allprojects {
+    ext {
+        sparkVersion = '2.2.0'
+        vaadinVersion = '7.7.11.cuba.1'
+    }
+}
+
+
+configure([globalModule, coreModule, guiModule, webModule]) {
+    apply(plugin: 'java')
+    apply(plugin: 'maven')
+    apply(plugin: 'idea')
+    apply(plugin: 'cuba')
+
+    dependencies {
+        testCompile('junit:junit:4.12')
+    }
+
+    task sourceJar(type: Jar) {
+        from file('src')
+        classifier = 'sources'
+    }
+
+    artifacts {
+        archives sourceJar
+    }
+}
+
+configure(globalModule) {
+    task enhance(type: CubaEnhancing)
+
+    
+    jar {
+        manifest {
+            attributes('App-Component-Id': cuba.artifact.group)
+            attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
+        }
+    }
+    
+}
+
+configure(coreModule) {
+
+    configurations {
+        jdbc
+        dbscripts
+    }
+
+    dependencies {
+        compile(globalModule)
+        provided(servletApi)
+        jdbc(hsql)
+        testRuntime(hsql)
+
+    }
+
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, '/conf/search-core')
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
+            }
+        }
+    }
+
+    task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
+        appName = 'search-core'
+        appJars('search-global', 'search-core')
+    }
+
+    task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
+        dbms = 'hsql'
+        host = 'localhost'
+        dbName = 'search'
+        dbUser = 'sa'
+        dbPassword = ''
+    }
+
+    task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
+        dbms = 'hsql'
+        host = 'localhost'
+        dbName = 'search'
+        dbUser = 'sa'
+        dbPassword = ''
+    }
+}
+
+configure([guiModule, webModule]) {
+    dependencies {
+        compile (group: 'org.apache.spark', name: 'spark-core_2.11', version: project.sparkVersion) {
+            exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+            exclude group: 'log4j', module: 'log4j'
+            exclude group: 'com.fasterxml.jackson.core', module:'jackson-core'
+            exclude group: 'com.fasterxml.jackson.core', module:'jackson-databind'
+            exclude group: 'com.fasterxml.jackson.module', module: 'jackson-module-scala_2.11'
+        }
+        compile (group: 'org.apache.spark', name: 'spark-sql_2.11', version: project.sparkVersion) {
+            exclude group: 'com.fasterxml.jackson.module', module: 'jackson-module-scala_2.11'
+            exclude group: 'com.fasterxml.jackson.core', module:'jackson-core'
+            exclude group: 'com.fasterxml.jackson.core', module:'jackson-databind'
+        }
+        compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.11', version: '2.9.1'
+        compile group: 'com.fasterxml.jackson.core', name:'jackson-core', version: '2.9.2'
+        compile group: 'com.fasterxml.jackson.core', name:'jackson-databind', version: '2.9.2'
+        compile (group: 'com.vaadin', name: 'vaadin-server', version: project.vaadinVersion) {
+            exclude(group: 'com.vaadin', module: 'vaadin-sass-compiler')
+        }
+    }
+}
+
+configure(guiModule) {
+    dependencies {
+        compile(globalModule)
+
+    }
+
+    task deployConf(type: Copy) {
+        from file('src')
+        include "com/haulmont/components/search/**"
+        into "$cuba.tomcat.dir/conf/search"
+    }
+}
+
+configure(webModule) {
+    configurations {
+        webcontent
+    }
+
+    dependencies {
+        provided(servletApi)
+        compile(guiModule)
+
+    }
+    
+    task webArchive(type: Zip) {
+        from file("$buildDir/web")
+        from file('web')
+        classifier = 'web'
+    }
+
+    artifacts {
+        archives webArchive
+    }
+
+    task deployConf(type: Copy) {
+        from file('src')
+        include "com/haulmont/components/search/**"
+        into "$cuba.tomcat.dir/conf/search"
+    }
+
+    task clearMessagesCache(type: CubaClearMessagesCache) {
+        appName = 'search'
+    }
+    deployConf.dependsOn clearMessagesCache
+
+    task cleanConf(description: 'Cleans up conf directory') {
+        doLast {
+            def dir = new File(cuba.tomcat.dir, '/conf/search')
+            if (dir.isDirectory()) {
+                ant.delete(includeemptydirs: true) {
+                    fileset(dir: dir, includes: '**/*', excludes: 'local.app.properties')
+                }
+            }
+        }
+    }
+
+    task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
+        appName = 'search'
+        appJars('search-global', 'search-gui', 'search-web')
+    }
+}
+
+
+
+
+
+task undeploy(type: Delete, dependsOn: ':search-web:cleanConf') {
+    delete("$cuba.tomcat.dir/shared")
+    delete("$cuba.tomcat.dir/webapps/search-core")
+    delete("$cuba.tomcat.dir/webapps/search")
+}
+
+task restart(dependsOn: ['stop', ':search-core:deploy', ':search-web:deploy'], description: 'Redeploys applications and restarts local Tomcat') {
+    doLast {
+        ant.waitfor(maxwait: 6, maxwaitunit: 'second', checkevery: 2, checkeveryunit: 'second') {
+            not {
+                socket(server: 'localhost', port: '8787')
+            }
+        }
+        start.execute()
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3.1'
+}
+
+
