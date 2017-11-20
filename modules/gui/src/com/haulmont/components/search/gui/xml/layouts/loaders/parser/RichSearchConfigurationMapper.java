@@ -33,21 +33,21 @@ public class RichSearchConfigurationMapper {
     @Inject
     protected Logger logger;
 
-    public SearchConfiguration parse(Context context, Element element) {
+    public SearchConfiguration map(Context context, Element element) {
         return ()-> Stream.of(
-                parseProviderBeans(element.elements("strategyBean")),
-                parseContextualProviders(context, element.elements("strategy"))
+                mapProviderBeans(element.elements("strategyBean")),
+                mapContextualProviders(context, element.elements("strategy"))
         ).flatMap(Function.identity())
                 .filter(Objects::nonNull)
                 .collect(Collectors.toMap(SearchStrategy::name, Function.identity()));
     }
 
-    protected Stream<SearchStrategy> parseProviderBeans(List elements) {
+    protected Stream<SearchStrategy> mapProviderBeans(List elements) {
         return Optional.ofNullable((List<Element>) elements)
                 .orElse(Collections.emptyList()).stream().map(this::strategyBeanMap);
     }
 
-    protected Stream<SearchStrategy> parseContextualProviders(Context context, List elements) {
+    protected Stream<SearchStrategy> mapContextualProviders(Context context, List elements) {
         return Optional.ofNullable((List<Element>) elements)
                 .orElse(Collections.emptyList()).stream().map(e -> contextualStrategyMap(context, e));
     }

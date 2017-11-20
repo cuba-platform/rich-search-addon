@@ -19,6 +19,6 @@ public class RichSearchLoader extends SuggestionFieldLoader {
     @Override
     public void loadComponent() {
         super.loadComponent();
-        AppBeans.get(SearchPresenter.class).init((RichSearch)resultComponent, configurationMapper.parse(context, element));
+        AppBeans.get(SearchPresenter.class).init((RichSearch)resultComponent, configurationMapper.map(context, element));
     }
 }
