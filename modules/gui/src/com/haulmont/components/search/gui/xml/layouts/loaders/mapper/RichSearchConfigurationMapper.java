@@ -1,4 +1,4 @@
-package com.haulmont.components.search.gui.xml.layouts.loaders.parser;
+package com.haulmont.components.search.gui.xml.layouts.loaders.mapper;
 
 import com.google.common.base.Preconditions;
 import com.haulmont.components.search.context.SearchConfiguration;
@@ -26,31 +26,32 @@ import java.util.stream.Stream;
 
 /**
  * Maps XML Configuration on {@code SearchConfiguration} bean which used for search component initialisation
- *
+ * <p>
  * configuration examples:
  * <ul>
- *     <li>
- *         <b>Strategy bean example</b>
- *         <pre><![CDATA[
+ * <li>
+ * <b>Strategy bean example</b>
+ * <pre><![CDATA[
  *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
  *                 <search:richSearch id="search" inputPrompt="msg://searching">
  *                     <search:strategyBean name="search_MainMenuSearchProvider" />
  *                 </search:richSearch>
  *             </window>
  *         ]]></pre>
- *     </li>
- *     <li>
- *         <b>Inline frame methods based strategy {@link ContextualSearchStrategy} example</b>
- *         <pre><![CDATA[
+ * </li>
+ * <li>
+ * <b>Inline frame methods based strategy {@link ContextualSearchStrategy} example</b>
+ * <pre><![CDATA[
  *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
  *                 <search:richSearch id="search" inputPrompt="msg://searching">
  *                     <search:strategy name="Custom Strategy" searchMethod="methodName" invokeMethod="methodName" />
  *                 </search:richSearch>
  *             </window>
  *         ]]></pre>
- *     </li>
+ * </li>
  * </ul>
  * <br />
+ *
  * @see ApplicationContext
  * @see SearchStrategy
  * @see RichSearchLoader
@@ -66,7 +67,7 @@ public class RichSearchConfigurationMapper {
     protected Logger logger;
 
     public SearchConfiguration map(Context context, Element element) {
-        return ()-> Stream.of(
+        return () -> Stream.of(
                 mapProviderBeans(element.elements("strategyBean")),
                 mapContextualProviders(context, element.elements("strategy"))
         ).flatMap(Function.identity())
@@ -107,17 +108,17 @@ public class RichSearchConfigurationMapper {
         return new ContextualSearchStrategy<>(name,
                 (ctx, query) -> {
                     try {
-                        return (List<SearchEntry>)MethodUtils.invokeMethod(context.getFrame(), searcher, ctx, query);
+                        return (List<SearchEntry>) MethodUtils.invokeMethod(context.getFrame(), searcher, ctx, query);
                     } catch (Exception e) {
                         logger.warn(e.getMessage(), e);
                         return Collections.emptyList();
                     }
                 }, (ctx, value) -> {
-                    try {
-                        MethodUtils.invokeMethod(context.getFrame(), invoker, ctx, value);
-                    } catch (Exception e) {
-                        logger.warn(e.getMessage(), e);
-                    }
-                });
+            try {
+                MethodUtils.invokeMethod(context.getFrame(), invoker, ctx, value);
+            } catch (Exception e) {
+                logger.warn(e.getMessage(), e);
+            }
+        });
     }
 }

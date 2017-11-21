@@ -17,6 +17,7 @@ import java.util.function.BiFunction;
  * because contains specific, not sharable logic and data.
  * <br />
  * Default implementation:
+ *
  * @see com.haulmont.components.search.presenter.impl.SearchPresenterImpl
  */
 public interface SearchPresenter {
@@ -26,16 +27,18 @@ public interface SearchPresenter {
      * Method must be called in component loader {@link com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader}.
      * It links search presentation level with component.
      * <br />
-     * @param component instance
-     * @param basicConfiguration parsed from xml {@link com.haulmont.components.search.gui.xml.layouts.loaders.parser.RichSearchConfigurationMapper}
+     *
+     * @param component          instance
+     * @param basicConfiguration parsed from xml {@link com.haulmont.components.search.gui.xml.layouts.loaders.mapper.RichSearchConfigurationMapper}
      */
     void init(RichSearch component, SearchConfiguration basicConfiguration);
 
     /**
      * Provides founded data
      * and will be triggered on each search action
+     *
      * @param context search object with params
-     * @param query pattern
+     * @param query   pattern
      * @return
      */
     List<SearchEntity> load(SearchContext context, String query);
@@ -43,29 +46,33 @@ public interface SearchPresenter {
     /**
      * Method will be invoked on each choose triggered by search component
      * <br />
+     *
      * @param context search object with params
-     * @param entry chosen
+     * @param entry   chosen
      */
     void invoke(SearchContext context, SearchEntry entry);
 
     /**
      * Provides possibility to add named search strategy
+     *
      * @param searchStrategy implementation
      */
     void addStrategy(SearchStrategy searchStrategy);
 
     /**
      * Provides possibility to add named search strategy
-     * @param name of searching strategy
+     *
+     * @param name     of searching strategy
      * @param searcher function, that must present data entry list by specific query
-     * @param invoker function, that must declare specific behavior on entry choosing
-     * @param <T> depends on entry {@link SearchEntry} implementation
+     * @param invoker  function, that must declare specific behavior on entry choosing
+     * @param <T>      depends on entry {@link SearchEntry} implementation
      */
     <T extends SearchEntry> void addStrategy(String name, BiFunction<SearchContext, String, List<T>> searcher,
-                                                    BiConsumer<SearchContext, T> invoker);
+                                             BiConsumer<SearchContext, T> invoker);
 
     /**
      * Removes strategy from component configuration
+     *
      * @param name of strategy
      */
     void removeStrategy(String name);

@@ -1,7 +1,7 @@
 package com.haulmont.components.search.gui.xml.layouts.loaders;
 
 import com.haulmont.components.search.gui.components.RichSearch;
-import com.haulmont.components.search.gui.xml.layouts.loaders.parser.RichSearchConfigurationMapper;
+import com.haulmont.components.search.gui.xml.layouts.loaders.mapper.RichSearchConfigurationMapper;
 import com.haulmont.components.search.presenter.SearchPresenter;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.gui.xml.layout.loaders.SuggestionFieldLoader;
