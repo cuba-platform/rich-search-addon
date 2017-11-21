@@ -38,7 +38,6 @@
        
                    <search:richSearch id="search" align="MIDDLE_LEFT" suggestionsLimit="200" inputPrompt="msg://searching">
                       <search:strategyBean name="search_MainMenuSearchStrategy" />
-                      <search:strategy name="custom2" searchMethod="search" invokeMethod="invoke" />
                    </search:richSearch>
        
                    <main:userIndicator id="userIndicator" align="MIDDLE_LEFT"/>
