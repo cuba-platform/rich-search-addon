@@ -138,7 +138,7 @@
     }
     ```
 
-#### Programmatically strategy declaration usage:
+#### Programmatically strategy usage:
     
 **screen controller**:
 
