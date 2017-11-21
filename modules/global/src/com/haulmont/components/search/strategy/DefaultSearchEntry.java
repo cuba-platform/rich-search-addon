@@ -70,7 +70,7 @@ public class DefaultSearchEntry implements SearchEntry {
     }
 
     public boolean isActive() {
-        return Boolean.TRUE.equals(isActive());
+        return Boolean.TRUE.equals(isActive.get());
     }
 
     @Override
