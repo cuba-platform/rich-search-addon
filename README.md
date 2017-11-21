@@ -4,6 +4,7 @@
 
 1. Add component via Studio in your project
 2. Add code into **web-spring.xml**:
+
     ```xml
        <beans xmlns="http://www.springframework.org/schema/beans"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
