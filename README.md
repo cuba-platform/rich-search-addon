@@ -13,7 +13,7 @@
        </window>
     ```
     
-    **Been**:
+    **spring been**:
     ```java
        @Component("search_SearchStrategy")
        public class MySearchStrategy implements SearchStrategy {
@@ -41,7 +41,7 @@
        </window>
     ```
     
-    **Controller**:
+    **screen controller**:
     ```java
        public class MyWindowController implements Window {
            public List<SearchEntry> search(SearchContext context, String query) {
