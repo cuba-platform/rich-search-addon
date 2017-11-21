@@ -1,5 +1,7 @@
 # Rich Search Component
 
+![Component image example](./search.gif =500x)
+
 ## Main screen installation
 
 1. Add component via Studio in your project

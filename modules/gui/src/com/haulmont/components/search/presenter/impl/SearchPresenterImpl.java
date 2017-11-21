@@ -57,6 +57,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     }
 
     public void invoke(SearchContext context, SearchEntry entry) {
+        if (entry == null) return;
         SearchStrategy strategy = configuration.strategyProviders().get(entry.getStrategyName());
         if (strategy == null) return;
         context.applyUICallback(()-> strategy.invoke(context, entry));

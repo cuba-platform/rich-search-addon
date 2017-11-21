@@ -47,6 +47,8 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
         addValueChangeListener((context, value)-> {
             if (presenter != null) {
                 presenter.invoke(context, value);
+
+                resetValue();
             }
         });
     }
@@ -63,7 +65,8 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
 
     @Override
     public void addValueChangeListener(BiConsumer<SearchContext, SearchEntry> listener) {
-        super.addValueChangeListener(e-> listener.accept(context, ((SearchEntity) e.getValue()).getDelegate()));
+        super.addValueChangeListener(e-> listener.accept(context,
+                e.getValue() == null ? null : ((SearchEntity) e.getValue()).getDelegate()));
     }
 
     @Override
@@ -91,6 +94,7 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
         AtomicBoolean needsToReset = new AtomicBoolean(false);
 
         public void reset() {
+            //FIXME: setting value null here will be trigger another event from ui which prevent reset
             needsToReset.set(true);
         }
 
@@ -100,7 +104,6 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
             if (needsToReset.getAndSet(false)) {
                 //FIXME: no way to resetValue value without resetValue state
                 setValue(SearchEntity.EMPTY);
-                setValue(null);
                 //FIXME: this works, but only once
                 getState().text = null;
             }
