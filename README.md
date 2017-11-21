@@ -68,6 +68,7 @@
            </layout>
        </window>
     ```
+    
 ## Usage
 
 #### Declarative xml strategy usage:
