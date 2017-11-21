@@ -1,6 +1,75 @@
 # Rich Search Component
 
-## Declarative xml strategy usage:
+## Main screen installation
+
+1. Add component via Studio in your project
+2. Add code into **web-spring.xml**:
+    ```xml
+       <beans xmlns="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:context="http://www.springframework.org/schema/context"
+              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+               http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+           ...
+           <!-- Annotation-based beans -->
+           <context:component-scan base-package="com.haulmont.components"/>
+           ...
+       </beans>
+    ```
+3. Override main screen via Studio interface
+4. Add code in **ext-mainwindow.xml** as indicated below:
+    ```xml
+       <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+               class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
+               xmlns:search="http://schemas.haulmont.com/cuba/search.xsd"
+               xmlns:main="http://schemas.haulmont.com/cuba/mainwindow.xsd"
+               messagesPack="com.haulmont.searchtest.web.screens">
+           <dialogMode height="600"
+                       width="800"/>
+           <layout expand="foldersSplit">
+               <hbox id="titleBar" stylename="c-app-menubar"
+                     expand="mainMenu" width="100%" height="AUTO"
+                     spacing="true" margin="false;false;false;true">
+       
+                   <embedded id="logoImage" align="MIDDLE_LEFT" type="IMAGE" stylename="c-app-icon"/>
+       
+                   <main:menu id="mainMenu" align="MIDDLE_LEFT"/>
+       
+                   <search:richSearch id="search" align="MIDDLE_LEFT" suggestionsLimit="200" inputPrompt="msg://searching">
+                      <search:strategyBean name="search_MainMenuSearchStrategy" />
+                      <search:strategy name="custom2" searchMethod="search" invokeMethod="invoke" />
+                   </search:richSearch>
+       
+                   <main:userIndicator id="userIndicator" align="MIDDLE_LEFT"/>
+       
+                   <main:timeZoneIndicator id="timeZoneIndicator" align="MIDDLE_LEFT"/>
+       
+                   <hbox id="mainButtonsBox" stylename="c-main-buttons" align="MIDDLE_LEFT">
+                       <main:newWindowButton id="newWindowButton"
+                                             icon="app/images/new-window.png"
+                                             description="msg://com.haulmont.cuba.gui/newWindowBtnDescription"/>
+       
+                       <main:logoutButton id="logoutButton"
+                                          icon="app/images/exit.png"
+                                          description="msg://com.haulmont.cuba.gui/logoutBtnDescription"/>
+                   </hbox>
+               </hbox>
+       
+               <split id="foldersSplit" width="100%" orientation="horizontal" pos="200px">
+                   <main:foldersPane id="foldersPane" width="100%" height="100%"/>
+       
+                   <main:workArea id="workArea" width="100%" height="100%">
+                       <main:initialLayout spacing="true" margin="true">
+       
+                       </main:initialLayout>
+                   </main:workArea>
+               </split>
+           </layout>
+       </window>
+    ```
+## Usage
+
+#### Declarative xml strategy usage:
 
 1. **Bean configuration**
 
@@ -66,7 +135,8 @@
         }
     }
     ```
-## Programmatically strategy declaration usage:
+    
+#### Programmatically strategy declaration usage:
     
 **screen controller**:
 
@@ -92,6 +162,5 @@
         }
     }
 ```
-
 
  
