@@ -18,7 +18,7 @@
        </beans>
     ```
 3. Override main screen via Studio interface
-4. Add code in **ext-mainwindow.xml** as indicated below:
+4. Add code into **ext-mainwindow.xml** as indicated below:
     ```xml
        <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
                class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
