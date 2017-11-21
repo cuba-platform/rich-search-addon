@@ -31,8 +31,12 @@ public class MenuDataLoader {
                 .flatMap(root ->
                         root.getChildren().stream()
                                 .map(item -> new FlatMenuItem(item, root))
-                                .flatMap(this::traverse).map(item ->
-                                new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item), "menu")
+                                .flatMap(this::traverse)
+                                .filter(item-> !item.isSeparator())
+                                .filter(item-> item.getCommand() != null)
+                                .map(item ->
+                                    new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item),
+                                            "menu", item::isVisible)
                         ));
     }
 
@@ -56,7 +60,10 @@ public class MenuDataLoader {
     }
 
     public List<SearchEntry> load(String pattern) {
-        return cached.stream().filter(e -> e.getQueryString().contains(pattern.toLowerCase())).collect(Collectors.toList());
+        return cached.stream()
+                .filter(e -> e.getQueryString().contains(pattern.toLowerCase()))
+                .filter(DefaultSearchEntry::isActive)
+                .collect(Collectors.toList());
     }
 
     protected class FlatMenuItem implements AppMenu.MenuItem {
