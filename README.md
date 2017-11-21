@@ -1,6 +1,6 @@
-#Rich Search Component
+# Rich Search Component
 
-##Main screen installation
+## Main screen installation
 
 1. Add component via Studio in your project
 2. Add code into **web-spring.xml**:
@@ -68,10 +68,10 @@
            </layout>
        </window>
     ```
-    
-##Usage
 
-####Declarative xml strategy usage:
+## Usage
+
+#### Declarative xml strategy usage:
 
 1. **Bean configuration**
 
@@ -137,8 +137,8 @@
         }
     }
     ```
-    
-####Programmatically strategy declaration usage:
+
+#### Programmatically strategy declaration usage:
     
 **screen controller**:
 
@@ -164,5 +164,3 @@
         }
     }
 ```
-
- 
