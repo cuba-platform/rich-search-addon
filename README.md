@@ -1,6 +1,6 @@
 # Rich Search Component
 
-![Component image example](/img/search.gif =500x)
+![Component image example](/img/search.gif)
 
 ## Main screen installation
 
