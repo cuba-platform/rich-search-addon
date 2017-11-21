@@ -14,12 +14,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implements web context for search component {@link com.haulmont.components.search.web.gui.components.WebRichSearch}
+ */
 public class WebSearchContext implements SearchContext {
 
-    VaadinSession vaadinSession = VaadinSession.getCurrent();
-    SecurityContext securityContext = AppContext.getSecurityContextNN();
-    Map<String, Object> params = new HashMap<>();
-    static Logger logger = LoggerFactory.getLogger(WebSearchContext.class);
+    protected VaadinSession vaadinSession = VaadinSession.getCurrent();
+    protected SecurityContext securityContext = AppContext.getSecurityContextNN();
+    protected Map<String, Object> params = new HashMap<>();
+    protected static Logger logger = LoggerFactory.getLogger(WebSearchContext.class);
 
     public WebSearchContext() {}
 

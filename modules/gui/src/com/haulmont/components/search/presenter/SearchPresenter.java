@@ -1,97 +1,72 @@
 package com.haulmont.components.search.presenter;
 
-import com.google.common.base.Preconditions;
 import com.haulmont.components.search.context.SearchConfiguration;
 import com.haulmont.components.search.context.SearchContext;
-import com.haulmont.components.search.context.SearchContextFactory;
 import com.haulmont.components.search.gui.components.RichSearch;
-import com.haulmont.components.search.strategy.ContextualSearchStrategy;
 import com.haulmont.components.search.strategy.SearchEntity;
 import com.haulmont.components.search.strategy.SearchEntry;
 import com.haulmont.components.search.strategy.SearchStrategy;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import java.util.*;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@Component("search_SearchPresenter")
-@Scope("prototype")
-public class SearchPresenter {
+/**
+ * Provides presentation level functions and communicate between component {@link RichSearch} and search strategies.
+ * The Presenter implementation been must be annotated as {@code @Scope("prototype")}
+ * because contains specific, not sharable logic and data.
+ * <br />
+ * Default implementation:
+ * @see com.haulmont.components.search.presenter.impl.SearchPresenterImpl
+ */
+public interface SearchPresenter {
+    String NAME = "search_SearchPresenter";
 
-    @Inject
-    SearchContextFactory searchContextFactory;
+    /**
+     * Method must be called in component loader {@link com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader}.
+     * It links search presentation level with component.
+     * <br />
+     * @param component instance
+     * @param basicConfiguration parsed from xml {@link com.haulmont.components.search.gui.xml.layouts.loaders.parser.RichSearchConfigurationMapper}
+     */
+    void init(RichSearch component, SearchConfiguration basicConfiguration);
 
-    RichSearch component;
+    /**
+     * Provides founded data
+     * and will be triggered on each search action
+     * @param context search object with params
+     * @param query pattern
+     * @return
+     */
+    List<SearchEntity> load(SearchContext context, String query);
 
-    ExtendableConfiguration configuration;
+    /**
+     * Method will be invoked on each choose triggered by search component
+     * <br />
+     * @param context search object with params
+     * @param entry chosen
+     */
+    void invoke(SearchContext context, SearchEntry entry);
 
-    public void init(RichSearch component, SearchConfiguration basicConfiguration) {
-        component.init(searchContextFactory.session(), this);
+    /**
+     * Provides possibility to add named search strategy
+     * @param searchStrategy implementation
+     */
+    void addStrategy(SearchStrategy searchStrategy);
 
-        this.component = component;
-        this.configuration = new ExtendableConfiguration(basicConfiguration);
-    }
+    /**
+     * Provides possibility to add named search strategy
+     * @param name of searching strategy
+     * @param searcher function, that must present data entry list by specific query
+     * @param invoker function, that must declare specific behavior on entry choosing
+     * @param <T> depends on entry {@link SearchEntry} implementation
+     */
+    <T extends SearchEntry> void addStrategy(String name, BiFunction<SearchContext, String, List<T>> searcher,
+                                                    BiConsumer<SearchContext, T> invoker);
 
-    public List<SearchEntity> load(SearchContext context, String query) {
-        Preconditions.checkNotNull(context);
-
-        if(StringUtils.isEmpty(query)) return Collections.emptyList();
-
-        return Optional.ofNullable(configuration.strategyProviders()).orElse(Collections.emptyMap())
-                .values().stream().flatMap(strategy-> load(context, strategy, query.toLowerCase()))
-                .filter(Objects::nonNull)
-                .map(SearchEntity::new)
-                .collect(Collectors.toList());
-    }
-
-    protected Stream<SearchEntry> load(SearchContext context, SearchStrategy searchStrategy, String query) {
-        return searchStrategy.load(context, query).stream();
-    }
-
-    public void invoke(SearchContext context, SearchEntry entry) {
-        SearchStrategy strategy = configuration.strategyProviders().get(entry.getStrategyName());
-        if (strategy == null) return;
-        context.applyUICallback(()-> strategy.invoke(context, entry));
-    }
-
-    public void addStrategy(SearchStrategy searchStrategy) {
-        configuration.addStrategy(searchStrategy);
-    }
-
-    public <T extends SearchEntry> void addStrategy(String name, BiFunction<SearchContext, String, List<T>> searcher,
-                                                    BiConsumer<SearchContext, T> invoker) {
-        configuration.addStrategy(new ContextualSearchStrategy<>(name, searcher, invoker));
-    }
-
-    public void removeStrategy(String name) {
-        configuration.removeStrategy(name);
-    }
-
-    protected static class ExtendableConfiguration implements SearchConfiguration {
-
-        Map<String, SearchStrategy> searchStrategyMap = new HashMap<>();
-
-        public ExtendableConfiguration(SearchConfiguration basicConfiguration) {
-            searchStrategyMap.putAll(basicConfiguration.strategyProviders());
-        }
-
-        @Override
-        public Map<String, SearchStrategy> strategyProviders() {
-            return Collections.unmodifiableMap(searchStrategyMap);
-        }
-
-        public void addStrategy(SearchStrategy searchStrategy) {
-            searchStrategyMap.put(searchStrategy.name(), searchStrategy);
-        }
-
-        public void removeStrategy(String name) {
-            searchStrategyMap.remove(name);
-        }
-    }
+    /**
+     * Removes strategy from component configuration
+     * @param name of strategy
+     */
+    void removeStrategy(String name);
 }

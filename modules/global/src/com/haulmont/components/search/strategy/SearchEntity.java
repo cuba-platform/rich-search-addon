@@ -7,12 +7,21 @@ import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Metadata;
 
+/**
+ * Implements entity meta structure.
+ * The structure may be used as search entry wrapper for use in Datasource (or Component value)
+ *
+ * see:
+ * <pre>com.haulmont.cuba.gui.data.CollectionDatasource</pre>
+ * <pre>com.haulmont.cuba.gui.components.Field</pre>
+ * <pre>com.haulmont.cuba.gui.components.Component.HasValue</pre>
+ */
 @MetaClass(name = "search$SearchEntry")
 public class SearchEntity extends AbstractInstance implements Entity<String>, SearchEntry {
 
     public static SearchEntity EMPTY = new SearchEntity(new DefaultSearchEntry(null, "", "", null));
 
-    private SearchEntry delegate;
+    protected SearchEntry delegate;
 
     public SearchEntity() {}
 

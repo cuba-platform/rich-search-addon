@@ -2,6 +2,7 @@ package com.haulmont.components.search.gui.xml.layouts.loaders.parser;
 
 import com.google.common.base.Preconditions;
 import com.haulmont.components.search.context.SearchConfiguration;
+import com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader;
 import com.haulmont.components.search.strategy.ContextualSearchStrategy;
 import com.haulmont.components.search.strategy.SearchEntry;
 import com.haulmont.components.search.strategy.SearchStrategy;
@@ -23,6 +24,37 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Maps XML Configuration on {@code SearchConfiguration} bean which used for search component initialisation
+ *
+ * configuration examples:
+ * <ul>
+ *     <li>
+ *         <b>Strategy bean example</b>
+ *         <pre><![CDATA[
+ *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+ *                 <search:richSearch id="search" inputPrompt="msg://searching">
+ *                     <search:strategyBean name="search_MainMenuSearchProvider" />
+ *                 </search:richSearch>
+ *             </window>
+ *         ]]></pre>
+ *     </li>
+ *     <li>
+ *         <b>Inline frame methods based strategy {@link ContextualSearchStrategy} example</b>
+ *         <pre><![CDATA[
+ *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+ *                 <search:richSearch id="search" inputPrompt="msg://searching">
+ *                     <search:strategy name="Custom Strategy" searchMethod="methodName" invokeMethod="methodName" />
+ *                 </search:richSearch>
+ *             </window>
+ *         ]]></pre>
+ *     </li>
+ * </ul>
+ * <br />
+ * @see ApplicationContext
+ * @see SearchStrategy
+ * @see RichSearchLoader
+ */
 @Component("search_RichSearchConfigurationMapper")
 @Scope("prototype")
 public class RichSearchConfigurationMapper {
@@ -67,6 +99,7 @@ public class RichSearchConfigurationMapper {
         String name = element.attributeValue("name");
         String searcher = element.attributeValue("searchMethod");
         String invoker = element.attributeValue("invokeMethod");
+
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(searcher);
         Preconditions.checkNotNull(invoker);

@@ -12,6 +12,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Provides searching functions to {@link com.haulmont.components.search.strategy.MainMenuSearchStrategy}
+ */
 public class MenuDataLoader {
 
     protected SearchContext session;

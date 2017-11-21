@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides instances of {@link WebSearchContext}.
+ */
 @Component(SearchContextFactory.NAME)
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class WebSearchContextFactory implements SearchContextFactory {

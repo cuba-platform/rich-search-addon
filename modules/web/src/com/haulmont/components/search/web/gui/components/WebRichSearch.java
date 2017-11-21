@@ -18,10 +18,16 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Implements Web Vaadin version of component
+ * <br />
+ * @see SearchPresenter
+ * @see com.haulmont.components.search.presenter.impl.SearchPresenterImpl
+ */
 public class WebRichSearch extends WebSuggestionField implements RichSearch {
 
-    SearchContext context;
-    SearchPresenter presenter;
+    protected SearchContext context;
+    protected SearchPresenter presenter;
 
     public WebRichSearch() {
         component = new CubaSuggestionFieldExtended();

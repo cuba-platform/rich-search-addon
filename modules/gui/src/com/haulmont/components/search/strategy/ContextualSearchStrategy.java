@@ -6,11 +6,17 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+/**
+ * Declares specific strategy skeleton for dynamic search strategy {@link SearchStrategy} generation.
+ * Basically used for internal purposes {@link com.haulmont.components.search.gui.xml.layouts.loaders.parser.RichSearchConfigurationMapper}.
+ * <br />
+ * @param <T> depends on entry {@link SearchEntry} implementation
+ */
 public class ContextualSearchStrategy<T extends SearchEntry> implements SearchStrategy<T> {
 
-    String name;
-    BiFunction<SearchContext, String, List<T>> searcher;
-    BiConsumer<SearchContext, T> invoker;
+    protected String name;
+    protected BiFunction<SearchContext, String, List<T>> searcher;
+    protected BiConsumer<SearchContext, T> invoker;
 
     public ContextualSearchStrategy(String name, BiFunction<SearchContext, String, List<T>> searcher,
                                     BiConsumer<SearchContext, T> invoker) {

@@ -15,8 +15,17 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@Component("search_MainMenuSearchProvider")
-@Scope(proxyMode = ScopedProxyMode.INTERFACES)
+/**
+ * Implements searching strategy by application main menu.
+ * Holds menu session cache in {@code dataLoaderMap}.
+ * Data loading and searching provides by {@link MenuDataLoader}
+ * <br />
+ * @see SearchStrategy
+ * <br />
+ * Also see web implementation:
+ * <pre>com.haulmont.components.search.web.configuration.MenuProvider</pre>
+ */
+@Component("search_MainMenuSearchStrategy")
 public class MainMenuSearchStrategy implements SearchStrategy {
 
     protected Cache<SearchContext, MenuDataLoader> dataLoaderMap = CacheBuilder.newBuilder()

@@ -1,13 +1,25 @@
 package com.haulmont.components.search.strategy;
 
+/**
+ * Implements SearchEntry and declares additional query field for search customization
+ * <br />
+ * @see SearchEntry
+ */
 public class DefaultSearchEntry implements SearchEntry {
-    private String id;
-    private String queryString;
-    private String caption;
-    private String type;
+    protected String id;
+    protected String queryString;
+    protected String caption;
+    protected String type;
 
     public DefaultSearchEntry() {
 
+    }
+
+    public DefaultSearchEntry(String id, String caption, String type) {
+        this.id = id;
+        this.queryString = caption.toLowerCase();
+        this.caption = caption;
+        this.type = type;
     }
 
     public DefaultSearchEntry(String id, String queryString, String caption, String type) {
