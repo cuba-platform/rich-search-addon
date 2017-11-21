@@ -13,7 +13,7 @@
        </window>
     ```
     
-    **spring been**:
+    **spring bean**:
     ```java
        @Component("search_SearchStrategy")
        public class MySearchStrategy implements SearchStrategy {
