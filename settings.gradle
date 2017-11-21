@@ -1,4 +1,4 @@
-rootProject.name = 'global-search'
+rootProject.name = 'rich-search'
 include(':search-global', ':search-core', ':search-gui', ':search-web')
 project(':search-global').projectDir = new File(settingsDir, 'modules/global')
 project(':search-core').projectDir = new File(settingsDir, 'modules/core')
