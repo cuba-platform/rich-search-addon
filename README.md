@@ -1,5 +1,7 @@
 # Rich Search Component
-#### Declarative xml strategy usage:
+
+## Declarative xml strategy usage:
+
 1. **Bean configuration**
 
     **xml screen config**:
@@ -64,9 +66,10 @@
         }
     }
     ```
-#### Programmatically strategy declaration usage:
+## Programmatically strategy declaration usage:
     
 **screen controller**:
+
 ```java
     public class MyWindowController implements Window {
     
