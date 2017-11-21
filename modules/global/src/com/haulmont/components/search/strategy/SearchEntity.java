@@ -8,10 +8,10 @@ import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Metadata;
 
 /**
- * Implements entity meta structure.
- * The structure may be used as search entry wrapper for use in Datasource (or Component value)
- *
- * see:
+ * <p>Implements entity meta structure. <br />
+ * The structure may be used as search entry wrapper for value in Datasource (or Component)
+ * </p>
+ * <b>See also:</b> <br />
  * <pre>com.haulmont.cuba.gui.data.CollectionDatasource</pre>
  * <pre>com.haulmont.cuba.gui.components.Field</pre>
  * <pre>com.haulmont.cuba.gui.components.Component.HasValue</pre>

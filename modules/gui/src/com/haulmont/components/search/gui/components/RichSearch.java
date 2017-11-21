@@ -13,7 +13,6 @@ import java.util.function.Function;
 
 /**
  * Declares view level component for highly customizable searching.
- * <br />
  * @see SearchPresenter
  * @see SearchContext
  * @see SearchEntry
@@ -23,10 +22,10 @@ public interface RichSearch extends SuggestionField {
     String NAME = "richSearch";
 
     /**
-     * Method must be called in component loader {@link com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader}.
+     * <p>Method must be called in component loader {@link com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader}.<br />
      * It links search presentation level with component.
-     * <br />
-     * @param context search object with params
+     * </p>
+     * @param context search context object with params
      * @param presenter bean, that contains specific search related configuration and has access to search model level
      * <br />
      * @see SearchPresenter#init(com.haulmont.components.search.gui.components.RichSearch, com.haulmont.components.search.context.SearchConfiguration)
@@ -34,18 +33,18 @@ public interface RichSearch extends SuggestionField {
     void init(SearchContext context, SearchPresenter presenter);
 
     /**
-     * Method must reset component state
+     * Method must reset component state.
      */
     void resetValue();
 
     /**
-     * Adds value listener to component
-     * listener will be invoked on entry choosing
+     * Adds value chane listener to component. <br />
+     * Listener will be invoked on entry choosing.
      */
     void addValueChangeListener(BiConsumer<SearchContext, SearchEntry> listener);
 
     /**
-     * Provide possibility to add named search strategy via controller
+     * Provides possibility to add named search strategy via controller.
      * @param searchStrategy implementation
      * <br />
      * @see SearchPresenter#addStrategy(com.haulmont.components.search.strategy.SearchStrategy)
@@ -53,10 +52,10 @@ public interface RichSearch extends SuggestionField {
     void addStrategy(SearchStrategy searchStrategy);
 
     /**
-     * Provide possibility to add named search strategy via controller
+     * Provides possibility to add named search strategy via controller
      * by setting specific data searching method and invoke method
      * <br />
-     * @param name of searching strategy
+     * @param name searching strategy name
      * @param searcher function, that must present data entry list by specific query
      * @param invoker function, that must declare specific behavior on entry choosing
      * @param <T> depends on entry implementation
@@ -68,7 +67,7 @@ public interface RichSearch extends SuggestionField {
 
     /**
      * Removes strategy from component configuration
-     * @param name of strategy
+     * @param name searching strategy name
      * <br />
      * @see SearchPresenter#removeStrategy(java.lang.String)
      */

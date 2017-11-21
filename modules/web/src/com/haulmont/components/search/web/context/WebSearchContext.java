@@ -30,16 +30,25 @@ public class WebSearchContext implements SearchContext {
         this.params = params;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserSession session() {
         return vaadinSession.getAttribute(UserSession.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, Object> params() {
         return Collections.unmodifiableMap(params);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void applyUICallback(Runnable callback) {
         VaadinSession oldSession = VaadinSession.getCurrent();
@@ -72,6 +81,9 @@ public class WebSearchContext implements SearchContext {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SearchContext withParams(Map<String, Object> basicParams) {
         Map<String, Object> params = new HashMap<>(basicParams);
@@ -79,6 +91,9 @@ public class WebSearchContext implements SearchContext {
         return new WebSearchContext(params);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SearchContext extendParams(Map<String, Object> params) {
         this.params.putAll(params);

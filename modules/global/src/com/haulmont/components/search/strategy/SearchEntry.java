@@ -3,10 +3,9 @@ package com.haulmont.components.search.strategy;
 import javax.annotation.Nonnull;
 
 /**
- * Declares the number of methods used for search result presentation layer
- * <br />
+ * <p>Declares the number of methods used in search for result presentation</p>
  * Default implementation:
- * @see DefaultSearchEntry
+ * {@link DefaultSearchEntry}
  */
 public interface SearchEntry {
     /**

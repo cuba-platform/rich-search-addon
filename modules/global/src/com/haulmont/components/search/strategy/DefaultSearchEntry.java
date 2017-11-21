@@ -2,11 +2,6 @@ package com.haulmont.components.search.strategy;
 
 import java.util.function.Supplier;
 
-/**
- * Implements SearchEntry and declares additional query field for search customization
- * <br />
- * @see SearchEntry
- */
 public class DefaultSearchEntry implements SearchEntry {
     protected String id;
     protected String queryString;
@@ -14,9 +9,7 @@ public class DefaultSearchEntry implements SearchEntry {
     protected String type;
     protected Supplier<Boolean> isActive;
 
-    public DefaultSearchEntry() {
-
-    }
+    public DefaultSearchEntry() {}
 
     public DefaultSearchEntry(String id, String caption, String type) {
         this(id, caption.toLowerCase(), caption, type, null);

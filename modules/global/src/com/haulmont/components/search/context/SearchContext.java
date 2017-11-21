@@ -6,39 +6,39 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Contains context depended data for search mechanism.
- * The implementation relates on client type and must provide user session and form data params.
+ * <p>Contains context depended data for searching mechanism.<br />
+ * The implementation depends on client type and must provide user session and form data params.
  * <br />
- * The context instance must be created via factory methods {@link SearchContextFactory#session()}.
- * <br />
+ * The context instance must be created via factory method {@link SearchContextFactory#session()}.
+ * </p>
  * See also the default web implementation:
  * <pre>com.haulmont.components.search.web.context.WebSearchContext</pre>
  */
 public interface SearchContext extends Serializable {
     /**
-     * @return user session object, currently logged in
+     * @return <b>user session</b> object, currently logged in
      */
     UserSession session();
 
     /**
-     * @return context dependent params, that can be provided by search strategy
+     * @return <b>context dependent params</b>, that can be provided by search strategy
      */
     Map<String, Object> params();
 
     /**
      * Implements client related access for pushing callback
-     * @param callback function that will be called in client side after access
+     * @param callback function that will be called
      */
     void applyUICallback(Runnable callback);
 
     /**
      * @param params that will be added to context
-     * @return new version of context
+     * @return new version of <b>context</b>
      */
     SearchContext withParams(Map<String, Object> params);
     /**
      * @param params that will be added to context
-     * @return current version of context
+     * @return current version of <b>context</b>
      */
     SearchContext extendParams(Map<String, Object> params);
 }

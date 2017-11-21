@@ -7,22 +7,27 @@ import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.gui.xml.layout.loaders.SuggestionFieldLoader;
 
 /**
- * Create and load {@link RichSearch} component to frame
- * Also links component with presenter {@link SearchPresenter}
- * <br />
- * Configuration mapper:
- * @see RichSearchConfigurationMapper
+ * <p>Create and load {@link RichSearch} component to frame.<br />
+ * Also links component with presenter {@link SearchPresenter}.</p>
+ *
+ * Configuration mapper: {@link RichSearchConfigurationMapper}
  */
 public class RichSearchLoader extends SuggestionFieldLoader {
 
     protected RichSearchConfigurationMapper configurationMapper = AppBeans.get(RichSearchConfigurationMapper.class);
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createComponent() {
         resultComponent = (RichSearch) factory.createComponent(RichSearch.NAME);
         loadId(resultComponent, element);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadComponent() {
         super.loadComponent();

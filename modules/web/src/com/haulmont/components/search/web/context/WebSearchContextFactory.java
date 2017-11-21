@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component(SearchContextFactory.NAME)
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class WebSearchContextFactory implements SearchContextFactory {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SearchContext session() {
         return new WebSearchContext();

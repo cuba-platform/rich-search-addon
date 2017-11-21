@@ -7,10 +7,9 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 /**
- * Declares specific strategy skeleton for dynamic search strategy {@link SearchStrategy} generation.
- * Basically used for internal purposes {@link com.haulmont.components.search.gui.xml.layouts.loaders.mapper.RichSearchConfigurationMapper}.
- * <br />
- *
+ * <p>Declares specific strategy skeleton for dynamic {@link SearchStrategy} generation.<br />
+ * Basically used for internal purposes in {@link com.haulmont.components.search.gui.xml.layouts.loaders.mapper.RichSearchConfigurationMapper}.
+ * </p>
  * @param <T> depends on entry {@link SearchEntry} implementation
  */
 public class ContextualSearchStrategy<T extends SearchEntry> implements SearchStrategy<T> {
@@ -26,16 +25,25 @@ public class ContextualSearchStrategy<T extends SearchEntry> implements SearchSt
         this.invoker = invoker;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String name() {
         return name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<T> load(SearchContext context, String query) {
         return searcher.apply(context, query);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invoke(SearchContext context, T value) {
         invoker.accept(context, value);

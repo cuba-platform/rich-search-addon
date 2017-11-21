@@ -8,10 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The extendable configuration implementation that presents additional logic
- * for dynamic add/remove any strategy for search component configuration.
- * <br />
- * @see SearchConfiguration
+ * Provides additional logic for dynamic add/remove strategy for search component configuration.
  */
 public class ExtendableSearchConfiguration implements SearchConfiguration {
     protected Map<String, SearchStrategy> searchStrategyMap = new HashMap<>();

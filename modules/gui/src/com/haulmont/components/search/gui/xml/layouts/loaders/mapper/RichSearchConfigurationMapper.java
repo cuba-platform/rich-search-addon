@@ -25,29 +25,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Maps XML Configuration on {@code SearchConfiguration} bean which used for search component initialisation
+ * Maps XML Configuration to {@code SearchConfiguration} bean, which used for search component initialisation
  * <p>
  * configuration examples:
  * <ul>
  * <li>
  * <b>Strategy bean example</b>
- * <pre><![CDATA[
+ * <pre>{@code
  *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
  *                 <search:richSearch id="search" inputPrompt="msg://searching">
  *                     <search:strategyBean name="search_MainMenuSearchProvider" />
  *                 </search:richSearch>
  *             </window>
- *         ]]></pre>
+ * }</pre>
  * </li>
  * <li>
- * <b>Inline frame methods based strategy {@link ContextualSearchStrategy} example</b>
- * <pre><![CDATA[
+ * <b>Inline frame methods based strategy example</b>
+ * <pre>{@code
  *             <window xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
  *                 <search:richSearch id="search" inputPrompt="msg://searching">
  *                     <search:strategy name="Custom Strategy" searchMethod="methodName" invokeMethod="methodName" />
  *                 </search:richSearch>
  *             </window>
- *         ]]></pre>
+ * }</pre>
  * </li>
  * </ul>
  * <br />
@@ -55,6 +55,7 @@ import java.util.stream.Stream;
  * @see ApplicationContext
  * @see SearchStrategy
  * @see RichSearchLoader
+ * @see ContextualSearchStrategy
  */
 @Component("search_RichSearchConfigurationMapper")
 @Scope("prototype")

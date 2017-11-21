@@ -5,20 +5,17 @@ import com.haulmont.components.search.strategy.SearchStrategy;
 import java.util.Map;
 
 /**
- * Contains configuration params for searching.
+ * <p>Contains configuration params for searching.<br />
  * Belongs to presenter as strategy holder for search component.
- * <br />
- * The basic mutable implementation:
- * @see com.haulmont.components.search.context.configuration.ExtendableSearchConfiguration
- * <br />
- * See also presentation layer:
- * <pre>com.haulmont.components.search.presenter.SearchPresenter</pre>
+ * </p>
+ * Basic mutable implementation:
+ * {@link com.haulmont.components.search.context.configuration.ExtendableSearchConfiguration}
  */
 @FunctionalInterface
 public interface SearchConfiguration {
 
     /**
-     * @return <b>immutable</b> search strategy collection, mapped by name
+     * @return <b>immutable</b> strategy collection, mapped by name
      */
     Map<String, SearchStrategy> strategyProviders();
 }

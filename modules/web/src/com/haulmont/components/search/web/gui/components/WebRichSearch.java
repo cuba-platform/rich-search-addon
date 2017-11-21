@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 /**
  * Implements Web Vaadin version of component
- * <br />
+ *
  * @see SearchPresenter
  * @see com.haulmont.components.search.presenter.impl.SearchPresenterImpl
  */
@@ -53,32 +53,51 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(SearchContext context, SearchPresenter presenter) {
         this.presenter = presenter;
         this.context = context;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void resetValue() {
         unwrap(CubaSuggestionFieldExtended.class).reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addValueChangeListener(BiConsumer<SearchContext, SearchEntry> listener) {
         super.addValueChangeListener(e-> listener.accept(context,
                 e.getValue() == null ? null : ((SearchEntity) e.getValue()).getDelegate()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addStrategy(SearchStrategy searchStrategy) {
         presenter.addStrategy(searchStrategy);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T extends SearchEntry> void addStrategy(String name, Function<String, List<T>> searcher, Consumer<T> invoker) {
         presenter.addStrategy(name, (context, query)-> searcher.apply(query), (context, value)-> invoker.accept(value));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeStrategy(String name) {
         presenter.removeStrategy(name);
@@ -89,7 +108,7 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
                 : Collections.emptyList();
     }
 
-    static class CubaSuggestionFieldExtended extends CubaSuggestionField {
+    protected static class CubaSuggestionFieldExtended extends CubaSuggestionField {
 
         AtomicBoolean needsToReset = new AtomicBoolean(false);
 

@@ -1,10 +1,10 @@
 package com.haulmont.components.search.presenter.impl;
 
 import com.google.common.base.Preconditions;
-import com.haulmont.components.search.context.configuration.ExtendableSearchConfiguration;
 import com.haulmont.components.search.context.SearchConfiguration;
 import com.haulmont.components.search.context.SearchContext;
 import com.haulmont.components.search.context.SearchContextFactory;
+import com.haulmont.components.search.context.configuration.ExtendableSearchConfiguration;
 import com.haulmont.components.search.gui.components.RichSearch;
 import com.haulmont.components.search.presenter.SearchPresenter;
 import com.haulmont.components.search.strategy.ContextualSearchStrategy;
@@ -16,7 +16,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -33,6 +36,10 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     protected ExtendableSearchConfiguration configuration;
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void init(RichSearch component, SearchConfiguration basicConfiguration) {
         component.init(searchContextFactory.session(), this);
 
@@ -40,6 +47,10 @@ public class SearchPresenterImpl implements SearchPresenter {
         this.configuration = new ExtendableSearchConfiguration(basicConfiguration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<SearchEntity> load(SearchContext context, String query) {
         Preconditions.checkNotNull(context);
 
@@ -56,6 +67,10 @@ public class SearchPresenterImpl implements SearchPresenter {
         return searchStrategy.load(context, query).stream();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void invoke(SearchContext context, SearchEntry entry) {
         if (entry == null) return;
         SearchStrategy strategy = configuration.strategyProviders().get(entry.getStrategyName());
@@ -63,15 +78,27 @@ public class SearchPresenterImpl implements SearchPresenter {
         context.applyUICallback(()-> strategy.invoke(context, entry));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addStrategy(SearchStrategy searchStrategy) {
         configuration.addStrategy(searchStrategy);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <T extends SearchEntry> void addStrategy(String name, BiFunction<SearchContext, String, List<T>> searcher,
                                                     BiConsumer<SearchContext, T> invoker) {
         configuration.addStrategy(new ContextualSearchStrategy<>(name, searcher, invoker));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void removeStrategy(String name) {
         configuration.removeStrategy(name);
     }

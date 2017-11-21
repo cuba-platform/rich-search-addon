@@ -6,8 +6,6 @@ import com.haulmont.components.search.context.SearchContext;
 import com.haulmont.components.search.context.SearchContextFactory;
 import com.haulmont.components.search.strategy.loader.MenuDataLoader;
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -16,12 +14,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Implements searching strategy by application main menu.
- * Holds menu session cache in {@code dataLoaderMap}.
- * Data loading and searching provides by {@link MenuDataLoader}
- * <br />
- * @see SearchStrategy
- * <br />
+ * <p>Implements searching strategy for application main menu.<br />
+ * The data loading and searching functions provided by {@link MenuDataLoader}
+ * </p>
  * Also see web implementation:
  * <pre>com.haulmont.components.search.web.configuration.MenuProvider</pre>
  */
@@ -40,6 +35,9 @@ public class MainMenuSearchStrategy implements SearchStrategy {
         this.searchContextFactory = searchContextFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<SearchEntry> load(SearchContext context, String query) {
         try {
@@ -51,12 +49,18 @@ public class MainMenuSearchStrategy implements SearchStrategy {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invoke(SearchContext context, SearchEntry value) {
         AppMenu.MenuItem item = appMenu.getMenuItem(value.getId());
         item.getCommand().accept(item);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String name() {
         return "menu";

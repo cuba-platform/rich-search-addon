@@ -6,7 +6,7 @@ import org.springframework.context.annotation.*;
 
 /**
  * Provides application menu {@link AppMenu} injection
- * <br />
+ *
  * @see com.haulmont.components.search.strategy.MainMenuSearchStrategy
  */
 @Configuration
