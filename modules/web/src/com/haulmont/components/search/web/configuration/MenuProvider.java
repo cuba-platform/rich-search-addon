@@ -12,7 +12,6 @@ import org.springframework.context.annotation.*;
 @Configuration
 public class MenuProvider {
 
-    @Lazy
     @Bean("search_AppMenu")
     @Scope(value = "prototype", proxyMode = ScopedProxyMode.INTERFACES)
     public AppMenu applicationMenu() {

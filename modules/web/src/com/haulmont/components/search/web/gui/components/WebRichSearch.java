@@ -121,7 +121,7 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
         public void beforeClientResponse(boolean initial) {
             super.beforeClientResponse(initial);
             if (needsToReset.getAndSet(false)) {
-                //FIXME: no way to resetValue value without resetValue state
+                //FIXME: no way to resetValue value
                 setValue(SearchEntity.EMPTY);
                 //FIXME: this works, but only once
                 getState().text = null;
