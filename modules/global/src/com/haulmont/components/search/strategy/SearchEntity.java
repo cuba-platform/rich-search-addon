@@ -7,6 +7,8 @@ import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Metadata;
 
+import javax.persistence.Id;
+
 /**
  * <p>Implements entity meta structure. <br />
  * The structure may be used as search entry wrapper for value in Datasource (or Component)
@@ -19,7 +21,7 @@ import com.haulmont.cuba.core.global.Metadata;
 @MetaClass(name = "search$SearchEntry")
 public class SearchEntity extends AbstractInstance implements Entity<String>, SearchEntry {
 
-    public static SearchEntity EMPTY = new SearchEntity(new DefaultSearchEntry(null, "", "", null));
+    public static final SearchEntity EMPTY = new SearchEntity(new DefaultSearchEntry(null, "", "", null));
 
     protected SearchEntry delegate;
 
@@ -29,10 +31,13 @@ public class SearchEntity extends AbstractInstance implements Entity<String>, Se
         this.delegate = delegate;
     }
 
+    @Id
     @Override
     @MetaProperty
     public String getId() {
-        return delegate.getId();
+        return new StringBuilder(delegate.getStrategyName())
+                .append('/')
+                .append(delegate.getId()).toString();
     }
 
     @Override
