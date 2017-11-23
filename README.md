@@ -5,22 +5,8 @@
 ## Main screen installation
 
 1. Add component via Studio in your project
-2. Add code into **web-spring.xml**:
-
-    ```xml
-       <beans xmlns="http://www.springframework.org/schema/beans"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xmlns:context="http://www.springframework.org/schema/context"
-              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-               http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-           ...
-           <!-- Annotation-based beans -->
-           <context:component-scan base-package="com.haulmont.components"/>
-           ...
-       </beans>
-    ```
-3. Override main screen via Studio interface
-4. Add code into **ext-mainwindow.xml** as indicated below:
+1. Override main screen via Studio interface
+1. Add code into **ext-mainwindow.xml** as indicated below:
     ```xml
        <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
                class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
@@ -107,7 +93,7 @@
         }
     }
     ```
-2. **Frame method referential configuration**
+1. **Frame method referential configuration**
 
     **xml screen config**:
     ```xml
