@@ -166,7 +166,7 @@
     }
 ```
 
-### Known issues
+## Known issues
 
 1. Search field has not to be cleaned after choosing value [PL-10046](https://youtrack.haulmont.com/issue/PL-10046)
 1. Unable to customize the drop-down menu for adding strategy groups [PL-9134](https://youtrack.haulmont.com/issue/PL-9134)
