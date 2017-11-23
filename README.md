@@ -28,6 +28,8 @@
                       <search:strategyBean name="search_MainMenuSearchStrategy" />
                    </search:richSearch>
        
+                   <main:ftsField id="ftsField" align="MIDDLE_LEFT"/>   
+ 
                    <main:userIndicator id="userIndicator" align="MIDDLE_LEFT"/>
        
                    <main:timeZoneIndicator id="timeZoneIndicator" align="MIDDLE_LEFT"/>
