@@ -165,3 +165,11 @@
         }
     }
 ```
+
+### Known issues
+
+1. Search field has not to be cleaned after choosing value [PL-10046](https://youtrack.haulmont.com/issue/PL-10046)
+1. Unable to customize the drop-down menu for adding strategy groups [PL-9134](https://youtrack.haulmont.com/issue/PL-9134)
+1. Limit the amount of input should be accounted for each strategy separately (No task, discussion needs)
+1. Add xml declaration for specific strategy params (No task, discussion needs)
+1. Add keyboard shortcuts for component and settings (No task, discussion needs)
