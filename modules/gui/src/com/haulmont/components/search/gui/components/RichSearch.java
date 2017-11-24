@@ -38,7 +38,7 @@ public interface RichSearch extends SuggestionField {
     void resetValue();
 
     /**
-     * Adds value chane listener to component. <br />
+     * Adds value change listener to component. <br />
      * Listener will be invoked on entry choosing.
      */
     void addValueChangeListener(BiConsumer<SearchContext, SearchEntry> listener);
