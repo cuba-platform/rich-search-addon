@@ -3,10 +3,12 @@ package com.haulmont.components.search.web.gui.components;
 import com.haulmont.components.search.context.SearchContext;
 import com.haulmont.components.search.gui.components.RichSearch;
 import com.haulmont.components.search.presenter.SearchPresenter;
+import com.haulmont.components.search.strategy.HeaderEntry;
 import com.haulmont.components.search.strategy.SearchEntity;
 import com.haulmont.components.search.strategy.SearchEntry;
 import com.haulmont.components.search.strategy.SearchStrategy;
 import com.haulmont.cuba.gui.components.CaptionMode;
+import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
 
 import java.util.Collections;
@@ -40,6 +42,8 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
                 resetValue();
             }
         });
+
+        setOptionsStyleProvider(this::defaultOptionsStyleProvider);
     }
 
     /**
@@ -95,5 +99,21 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
     protected List<SearchEntity> search(String searchString, Map<String, Object> searchParams) {
         return presenter != null ? presenter.load(context.withParams(searchParams), searchString)
                 : Collections.emptyList();
+    }
+
+    protected String defaultOptionsStyleProvider(Component component, Object o) {
+
+        if (! (o instanceof SearchEntry)) {
+            return "";
+        }
+
+        if (o instanceof SearchEntity) {
+            SearchEntity searchEntity = (SearchEntity) o;
+            if (searchEntity.getDelegate() instanceof HeaderEntry) {
+                return "header-entry-style";
+            }
+        }
+
+        return "search-entry-style";
     }
 }

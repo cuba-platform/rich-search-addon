@@ -8,9 +8,11 @@ import com.haulmont.components.search.context.configuration.ExtendableSearchConf
 import com.haulmont.components.search.gui.components.RichSearch;
 import com.haulmont.components.search.presenter.SearchPresenter;
 import com.haulmont.components.search.strategy.ContextualSearchStrategy;
+import com.haulmont.components.search.strategy.HeaderEntry;
 import com.haulmont.components.search.strategy.SearchEntity;
 import com.haulmont.components.search.strategy.SearchEntry;
 import com.haulmont.components.search.strategy.SearchStrategy;
+import com.haulmont.cuba.core.global.Messages;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -29,8 +31,13 @@ import java.util.stream.Stream;
 @Scope("prototype")
 public class SearchPresenterImpl implements SearchPresenter {
 
+    public final String strategyMessagePrefix = "searchStrategy.";
+
     @Inject
     protected SearchContextFactory searchContextFactory;
+
+    @Inject
+    protected Messages messages;
 
     protected RichSearch component;
 
@@ -54,17 +61,29 @@ public class SearchPresenterImpl implements SearchPresenter {
     public List<SearchEntity> load(SearchContext context, String query) {
         Preconditions.checkNotNull(context);
 
-        if(StringUtils.isEmpty(query)) return Collections.emptyList();
+        if (StringUtils.isEmpty(query)) { return Collections.emptyList(); }
 
         return Optional.ofNullable(configuration.strategyProviders()).orElse(Collections.emptyMap())
-                .values().stream().flatMap(strategy-> load(context, strategy, query.toLowerCase()))
+                .values().stream().flatMap(strategy -> load(context, strategy, query.toLowerCase()))
                 .filter(Objects::nonNull)
                 .map(SearchEntity::new)
                 .collect(Collectors.toList());
     }
 
     protected Stream<SearchEntry> load(SearchContext context, SearchStrategy searchStrategy, String query) {
-        return searchStrategy.load(context, query).stream();
+        List<SearchEntry> searchEntries = searchStrategy.load(context, query);
+        if (searchEntries.isEmpty()) {
+            return Stream.empty();
+        }
+
+        SearchEntry header = getHeaderEntryForStrategy(searchStrategy);
+        searchEntries.add(0, header);
+        return searchEntries.stream();
+    }
+
+    protected SearchEntry getHeaderEntryForStrategy(SearchStrategy searchStrategy) {
+        String localizedName = messages.getMainMessage(strategyMessagePrefix + searchStrategy.name());
+        return new HeaderEntry(localizedName);
     }
 
     /**
@@ -72,10 +91,12 @@ public class SearchPresenterImpl implements SearchPresenter {
      */
     @Override
     public void invoke(SearchContext context, SearchEntry entry) {
-        if (entry == null) return;
+        if (entry == null) { return; }
         SearchStrategy strategy = configuration.strategyProviders().get(entry.getStrategyName());
-        if (strategy == null) return;
-        context.applyUICallback(()-> strategy.invoke(context, entry));
+        if (strategy == null) { return; }
+        if (entry instanceof HeaderEntry) { return; }
+
+        context.applyUICallback(() -> strategy.invoke(context, entry));
     }
 
     /**
