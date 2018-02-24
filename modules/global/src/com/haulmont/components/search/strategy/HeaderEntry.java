@@ -1,5 +1,9 @@
 package com.haulmont.components.search.strategy;
 
+import com.haulmont.bali.util.Preconditions;
+
+import javax.annotation.Nonnull;
+
 public class HeaderEntry implements SearchEntry {
     protected String id;
     protected String caption;
@@ -12,7 +16,14 @@ public class HeaderEntry implements SearchEntry {
         this(strategyName, strategyName, strategyName);
     }
 
+    public HeaderEntry(String id, String type) {
+        this(id, type.toLowerCase(), type);
+    }
+
     public HeaderEntry(String id, String caption, String type) {
+        Preconditions.checkNotNullArgument(id);
+        Preconditions.checkNotNullArgument(type);
+
         this.id = id;
         this.caption = caption;
         this.type = type;
@@ -47,19 +58,25 @@ public class HeaderEntry implements SearchEntry {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         HeaderEntry that = (HeaderEntry) o;
 
-        if (id != null ? ! id.equals(that.id) : that.id != null) { return false; }
-        return type != null ? type.equals(that.type) : that.type == null;
+        if (! id.equals(that.id)) {
+            return false;
+        }
+        return type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + type.hashCode();
         return result;
     }
 }

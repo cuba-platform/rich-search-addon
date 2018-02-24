@@ -10,6 +10,7 @@ import com.haulmont.components.search.strategy.SearchStrategy;
 import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -104,14 +105,12 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
     protected String defaultOptionsStyleProvider(Component component, Object o) {
 
         if (! (o instanceof SearchEntry)) {
-            return "";
+            return StringUtils.EMPTY;
         }
 
-        if (o instanceof SearchEntity) {
-            SearchEntity searchEntity = (SearchEntity) o;
-            if (searchEntity.getDelegate() instanceof HeaderEntry) {
-                return "header-entry-style";
-            }
+        SearchEntity searchEntity = (SearchEntity) o;
+        if (searchEntity.getDelegate() instanceof HeaderEntry) {
+            return "header-entry-style";
         }
 
         return "search-entry-style";

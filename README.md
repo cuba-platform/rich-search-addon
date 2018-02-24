@@ -5,6 +5,7 @@
 ## Main screen installation
 
 1. Add component via Studio in your project
+1. Create HALO theme extension
 1. Override main screen via Studio interface
 1. Add code into **ext-mainwindow.xml** as indicated below:
     ```xml
@@ -93,8 +94,25 @@
         public void invoke(SearchContext context, SearchEntry value) {
             //choosing behavior implementation
         }
+     
+        
+        @Override
+        public String name() {
+            return "myStrategy";
+        }
     }
     ```
+    **localization**
+    
+    Add entry to main message pack in format
+    ```text
+    searchStrategy.{strategyName} = Strategy name
+    ```
+    For example, 
+    ```text
+    searchStrategy.myStrategy = My strategy
+    ```
+    
 1. **Frame method referential configuration**
 
     **xml screen config**:
@@ -106,7 +124,7 @@
         <layout>
             ...
             <search:richSearch id="search" inputPrompt="msg://searching">
-                <search:strategy name="custom strategy" searchMethod="search" invokeMethod="invoke" />
+                <search:strategy name="customStrategy" searchMethod="search" invokeMethod="invoke" />
             </search:richSearch>
             ...
         </layout>
@@ -156,8 +174,6 @@
 
 ## Known issues
 
-1. Search field has not to be cleaned after choosing value [PL-10046](https://youtrack.haulmont.com/issue/PL-10046)
-1. Unable to customize the drop-down menu for adding strategy groups [PL-9134](https://youtrack.haulmont.com/issue/PL-9134)
 1. Limit the amount of input should be accounted for each strategy separately (No task, discussion need)
 1. Add xml declaration for specific strategy params (No task, discussion need)
 1. Add keyboard shortcuts for component and settings (No task, discussion need)

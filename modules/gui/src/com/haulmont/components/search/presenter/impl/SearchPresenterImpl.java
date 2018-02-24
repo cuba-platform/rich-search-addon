@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @Scope("prototype")
 public class SearchPresenterImpl implements SearchPresenter {
 
-    public final String strategyMessagePrefix = "searchStrategy.";
+    public static final String STRATEGY_MESSAGE_PREFIX = "searchStrategy.";
 
     @Inject
     protected SearchContextFactory searchContextFactory;
@@ -61,7 +61,9 @@ public class SearchPresenterImpl implements SearchPresenter {
     public List<SearchEntity> load(SearchContext context, String query) {
         Preconditions.checkNotNull(context);
 
-        if (StringUtils.isEmpty(query)) { return Collections.emptyList(); }
+        if (StringUtils.isEmpty(query)) {
+            return Collections.emptyList();
+        }
 
         return Optional.ofNullable(configuration.strategyProviders()).orElse(Collections.emptyMap())
                 .values().stream().flatMap(strategy -> load(context, strategy, query.toLowerCase()))
@@ -77,12 +79,11 @@ public class SearchPresenterImpl implements SearchPresenter {
         }
 
         SearchEntry header = getHeaderEntryForStrategy(searchStrategy);
-        searchEntries.add(0, header);
-        return searchEntries.stream();
+        return Stream.concat(Stream.of(header), searchEntries.stream());
     }
 
     protected SearchEntry getHeaderEntryForStrategy(SearchStrategy searchStrategy) {
-        String localizedName = messages.getMainMessage(strategyMessagePrefix + searchStrategy.name());
+        String localizedName = messages.getMainMessage(STRATEGY_MESSAGE_PREFIX + searchStrategy.name());
         return new HeaderEntry(localizedName);
     }
 
@@ -91,10 +92,14 @@ public class SearchPresenterImpl implements SearchPresenter {
      */
     @Override
     public void invoke(SearchContext context, SearchEntry entry) {
-        if (entry == null) { return; }
+        if (entry == null) {
+            return;
+        }
+
         SearchStrategy strategy = configuration.strategyProviders().get(entry.getStrategyName());
-        if (strategy == null) { return; }
-        if (entry instanceof HeaderEntry) { return; }
+        if (strategy == null || entry instanceof HeaderEntry) {
+            return;
+        }
 
         context.applyUICallback(() -> strategy.invoke(context, entry));
     }

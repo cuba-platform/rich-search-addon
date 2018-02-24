@@ -103,8 +103,12 @@ public class WebSearchContext implements SearchContext {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         WebSearchContext that = (WebSearchContext) o;
 
