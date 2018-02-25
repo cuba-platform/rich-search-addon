@@ -24,7 +24,8 @@ public class WebSearchContext implements SearchContext {
     protected Map<String, Object> params = new HashMap<>();
     protected static Logger logger = LoggerFactory.getLogger(WebSearchContext.class);
 
-    public WebSearchContext() {}
+    public WebSearchContext() {
+    }
 
     public WebSearchContext(Map<String, Object> params) {
         this.params = params;
@@ -59,7 +60,7 @@ public class WebSearchContext implements SearchContext {
 
             vaadinSession.getUIs().stream()
                     .filter(UI::isConnectorEnabled)
-                    .forEach(ui-> {
+                    .forEach(ui -> {
                         if (ui.isAttached()) {
                             ui.access(callback);
                         } else {
@@ -87,7 +88,7 @@ public class WebSearchContext implements SearchContext {
     @Override
     public SearchContext withParams(Map<String, Object> basicParams) {
         Map<String, Object> params = new HashMap<>(basicParams);
-        basicParams.putAll(this.params);
+        params.putAll(this.params);
         return new WebSearchContext(params);
     }
 
@@ -102,8 +103,12 @@ public class WebSearchContext implements SearchContext {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         WebSearchContext that = (WebSearchContext) o;
 
