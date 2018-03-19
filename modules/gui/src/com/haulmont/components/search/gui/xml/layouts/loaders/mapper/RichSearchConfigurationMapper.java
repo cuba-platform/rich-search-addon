@@ -2,7 +2,6 @@ package com.haulmont.components.search.gui.xml.layouts.loaders.mapper;
 
 import com.google.common.base.Preconditions;
 import com.haulmont.components.search.context.SearchConfiguration;
-import com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader;
 import com.haulmont.components.search.strategy.ContextualSearchStrategy;
 import com.haulmont.components.search.strategy.SearchEntry;
 import com.haulmont.components.search.strategy.SearchStrategy;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Maps XML Configuration to {@code SearchConfiguration} bean, which used for search component initialisation
+ * Maps XML Configuration to {@code com.haulmont.components.search.context.SearchConfiguration} bean, which used for search component initialisation
  * <p>
  * configuration examples:
  * <ul>
@@ -54,7 +53,7 @@ import java.util.stream.Stream;
  *
  * @see ApplicationContext
  * @see SearchStrategy
- * @see RichSearchLoader
+ * @see com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader
  * @see ContextualSearchStrategy
  */
 @Component("search_RichSearchConfigurationMapper")

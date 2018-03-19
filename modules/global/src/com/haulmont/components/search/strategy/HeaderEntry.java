@@ -2,8 +2,6 @@ package com.haulmont.components.search.strategy;
 
 import com.haulmont.bali.util.Preconditions;
 
-import javax.annotation.Nonnull;
-
 public class HeaderEntry implements SearchEntry {
     protected String id;
     protected String caption;
