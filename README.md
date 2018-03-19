@@ -2,12 +2,12 @@
 
 ![Component image example](resources/search.gif)
 
-## Main screen installation
+## Main Screen Installation
 
-1. Add component via Studio in your project
-1. Create HALO theme extension
-1. Override main screen via Studio interface
-1. Add code into **ext-mainwindow.xml** as indicated below:
+1. Add the component to your project using CUBA Studio.
+1. Create a HALO theme extension.
+1. Override the main screen via the Studio interface.
+1. Add the following code to **ext-mainwindow.xml** as it is given below:
     ```xml
        <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
                class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
@@ -61,7 +61,7 @@
 
 ## Usage
 
-#### Declarative xml strategy usage:
+#### Using Declarative XML Strategy:
 
 1. **Bean configuration**
 
@@ -113,7 +113,7 @@
     searchStrategy.myStrategy = My strategy
     ```
     
-1. **Frame method referential configuration**
+1. **Configuration of references for frame methods**
 
     **xml screen config**:
     ```xml
@@ -145,7 +145,7 @@
     }
     ```
 
-#### Programmatically strategy usage:
+#### Using Programmatic Strategy
     
 **screen controller**:
 
@@ -172,9 +172,9 @@
     }
 ```
 
-## Using custom theme
+## Using Custom Themes
 
-Add the next styles if custom theme is used:
+If a custom theme is used in your project, aff the following stypes:
 
 ```css
 .header-entry-style {
@@ -189,6 +189,6 @@ Add the next styles if custom theme is used:
 
 ## Known issues
 
-1. Limit the amount of input should be accounted for each strategy separately (No task, discussion need)
-1. Add xml declaration for specific strategy params (No task, discussion need)
-1. Add keyboard shortcuts for component and settings (No task, discussion need)
+1. The available amount of input should be accounted for each strategy separately (no task, to be discussed).
+1. It is required to add an XML declaration for specific strategy parameters (no task, to be discussed).
+1. It is required to add keyboard shortcuts for the component and its settings (no task, to be discussed).
