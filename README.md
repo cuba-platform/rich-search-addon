@@ -172,6 +172,21 @@
     }
 ```
 
+## Using custom theme
+
+Add the next styles if custom theme is used:
+
+```css
+.header-entry-style {
+    background-color: silver;
+    pointer-events: none;
+}
+
+.search-entry-style {
+    padding-left:30px;
+}
+```
+
 ## Known issues
 
 1. Limit the amount of input should be accounted for each strategy separately (No task, discussion need)
