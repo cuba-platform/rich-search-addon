@@ -3,7 +3,7 @@
     <component>
         <name>richSearch</name>
         <tag>richSearch</tag>
-        <componentLoader>com.haulmont.components.search.gui.xml.layouts.loaders.RichSearchLoader</componentLoader>
-        <class>com.haulmont.components.search.web.gui.components.WebRichSearch</class>
+        <componentLoader>com.haulmont.addon.search.gui.xml.layouts.loaders.RichSearchLoader</componentLoader>
+        <class>com.haulmont.addon.search.web.gui.components.WebRichSearch</class>
     </component>
 </components>

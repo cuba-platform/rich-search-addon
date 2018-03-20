@@ -1,0 +1,12 @@
+/* Define your theme modifications inside next mixin */
+@mixin com_haulmont_addon_search-halo-ext {
+
+    .header-entry-style {
+        background-color: silver;
+        pointer-events: none;
+    }
+
+    .search-entry-style {
+        padding-left:30px;
+    }
+}

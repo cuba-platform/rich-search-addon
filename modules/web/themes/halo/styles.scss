@@ -1,11 +1,11 @@
 @import "halo-defaults";
-@import "com.haulmont.components.search/halo-ext-defaults";
+@import "com.haulmont.addon.search/halo-ext-defaults";
 @import "app-components";
-@import "com.haulmont.components.search/halo-ext";
+@import "com.haulmont.addon.search/halo-ext";
 
 .halo {
   // include auto-generated app components SCSS
   @include app_components;
   
-  @include com_haulmont_components_search-halo-ext;
+  @include com_haulmont_addon_search-halo-ext;
 }
