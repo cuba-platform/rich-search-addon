@@ -32,7 +32,7 @@ apply(plugin: 'cuba')
 
 cuba {
     artifact {
-        group = 'com.haulmont.components.search'
+        group = 'com.haulmont.addon.search'
         version = '0.1'
         isSnapshot = true
     }
@@ -171,7 +171,7 @@ configure(guiModule) {
 
     task deployConf(type: Copy) {
         from file('src')
-        include "com/haulmont/components/search/**"
+        include "com/haulmont/addon/search/**"
         into "$cuba.tomcat.dir/conf/search"
     }
 }
@@ -199,7 +199,7 @@ configure(webModule) {
 
     task deployConf(type: Copy) {
         from file('src')
-        include "com/haulmont/components/search/**"
+        include "com/haulmont/addon/search/**"
         into "$cuba.tomcat.dir/conf/search"
     }
 

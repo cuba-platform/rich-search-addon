@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
     <metadata-model namespace="search"
-                    root-package="com.haulmont.components.search">
-        <class>com.haulmont.components.search.strategy.SearchEntity</class>
+                    root-package="com.haulmont.addon.search">
+        <class>com.haulmont.addon.search.strategy.SearchEntity</class>
     </metadata-model>
 </metadata>

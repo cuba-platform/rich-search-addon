@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app-component xmlns="http://schemas.haulmont.com/cuba/app-component.xsd"
+               dependsOn="com.haulmont.cuba">
+    <module blocks="*"
+            name="global">
+        <artifact appJar="true"
+                  name="search-global"/>
+        <property name="cuba.persistenceConfig"
+                  value="+search-persistence.xml"/>
+        <property name="cuba.metadataConfig"
+                  value="+search-metadata.xml"/>
+        <property name="cuba.viewsConfig"
+                  value="+search-views.xml"/>
+    </module>
+    <module blocks="core"
+            dependsOn="global"
+            name="core">
+        <artifact appJar="true"
+                  name="search-core"/>
+        <property name="cuba.springContextConfig"
+                  value="+spring.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.haulmont.addon.search.core"/>
+    </module>
+    <module blocks="web,desktop"
+            dependsOn="global"
+            name="gui">
+        <artifact appJar="true"
+                  name="search-gui"/>
+    </module>
+    <module blocks="web"
+            dependsOn="gui"
+            name="web">
+        <artifact appJar="true"
+                  name="search-web"/>
+        <artifact classifier="web"
+                  configuration="webcontent"
+                  ext="zip"
+                  name="search-web"/>
+        <artifact configuration="themes"
+                  name="search-web-themes"/>
+        <property name="cuba.web.componentsConfig"
+                  value="+search-web-components.xml"/>
+        <property name="cuba.springContextConfig"
+                  value="+search-web-spring.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.haulmont.addon.search.web"/>
+   </module>
+    <module name="web-themes">
+        <artifact name="search-web-themes"/>
+    </module>
+</app-component>
