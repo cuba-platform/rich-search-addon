@@ -33,7 +33,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.haulmont.addon.search'
-        version = '0.1'
+        version = '1.0'
         isSnapshot = true
     }
     tomcat {
