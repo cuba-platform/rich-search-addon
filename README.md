@@ -2,6 +2,10 @@
 
 ![Component image example](resources/search.gif)
 
+## Overview
+
+Global Search CUBA Platform application component that will provide user ability to search many types of objects in one search field.
+
 ## Main Screen Installation
 
 1. Add the component to your project using CUBA Studio.
