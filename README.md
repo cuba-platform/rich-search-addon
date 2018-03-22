@@ -9,9 +9,9 @@ Global Search CUBA Platform application component that will provide user ability
 ## Main Screen Installation
 
 1. Add the component to your project using CUBA Studio.
-1. Create a HALO theme extension.
+1. Create a Halo theme extension.
 1. Override the main screen via the Studio interface.
-1. Add the following code to **ext-mainwindow.xml** as it is given below:
+1. Add the following code to <code>ext-mainwindow.xml</code> as it is given below:
     ```xml
        <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
                class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
@@ -69,7 +69,7 @@ Global Search CUBA Platform application component that will provide user ability
 
 1. **Bean configuration**
 
-    **xml screen config**:
+    **XML screen config**:
     ```xml
     <window
         class="com.company.test.web.screens.TestWindow" 
@@ -85,7 +85,7 @@ Global Search CUBA Platform application component that will provide user ability
         ...
     </window>
     ```
-    **spring bean**:
+    **Spring bean**:
     ```java
     @Component("search_SearchStrategy")
     public class MySearchStrategy implements SearchStrategy {
@@ -106,7 +106,7 @@ Global Search CUBA Platform application component that will provide user ability
         }
     }
     ```
-    **localization**
+    **Localization**
     
     Add entry to main message pack in format
     ```text
@@ -119,7 +119,7 @@ Global Search CUBA Platform application component that will provide user ability
     
 1. **Configuration of references for frame methods**
 
-    **xml screen config**:
+    **XML screen config**:
     ```xml
     <window
         class="com.company.test.web.screens.TestWindow" 
@@ -136,7 +136,7 @@ Global Search CUBA Platform application component that will provide user ability
     </window>
     ```
     
-    **screen controller**:
+    **Screen controller**:
     ```java
     public class MyWindowController implements Window {
         public List<SearchEntry> search(SearchContext context, String query) {
@@ -151,7 +151,7 @@ Global Search CUBA Platform application component that will provide user ability
 
 #### Using Programmatic Strategy
     
-**screen controller**:
+**Screen controller**:
 
 ```java
     public class MyWindowController implements Window {
