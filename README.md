@@ -6,12 +6,24 @@
 
 Global Search CUBA Platform application component that will provide user ability to search many types of objects in one search field.
 
-## Main Screen Installation
+## Component Installation
+Select a version of the add-on which is compatible with the platform version used in your project:
 
-1. Add the component to your project using CUBA Studio.
+| Platform Version | Add-on Version |
+| ---------------- | -------------- |
+| 6.8.x            | 1.0.1          |
+
+Add custom application component to your project using CUBA Studio:
+
+* Artifact group: `com.haulmont.addon.search`
+* Artifact name: `search-global`
+* Version: *add-on version*
+
+## Main Screen Configuration
+
 1. Create a Halo theme extension.
 1. Override the main screen via the Studio interface.
-1. Add the following code to <code>ext-mainwindow.xml</code> as it is given below:
+1. Add the following code to `ext-mainwindow.xml` as it is given below:
     ```xml
        <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
                class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
