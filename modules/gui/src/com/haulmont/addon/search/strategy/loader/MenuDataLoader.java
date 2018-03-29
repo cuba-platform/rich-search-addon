@@ -5,6 +5,7 @@ import com.haulmont.addon.search.strategy.DefaultSearchEntry;
 import com.haulmont.addon.search.strategy.SearchEntry;
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,12 +33,12 @@ public class MenuDataLoader {
                         root.getChildren().stream()
                                 .map(item -> new FlatMenuItem(item, root))
                                 .flatMap(this::traverse)
-                                .filter(item-> !item.isSeparator())
-                                .filter(item-> item.getCommand() != null)
+                                .filter(item -> ! item.isSeparator())
+                                .filter(item -> item.getCommand() != null)
                                 .map(item ->
-                                    new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item),
-                                            "menu", item::isVisible)
-                        ));
+                                        new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item),
+                                                "menu", item::isVisible)
+                                ));
     }
 
     protected Stream<FlatMenuItem> traverse(FlatMenuItem root) {
@@ -60,8 +61,10 @@ public class MenuDataLoader {
     }
 
     public List<SearchEntry> load(String pattern) {
-        return cached.stream()
-                .filter(e -> e.getQueryString().contains(pattern.toLowerCase()))
+        return StringUtils.isBlank(pattern) ?
+                Collections.emptyList()
+                : cached.stream()
+                .filter(e -> e.getQueryString().contains(pattern.trim().toLowerCase()))
                 .filter(DefaultSearchEntry::isActive)
                 .collect(Collectors.toList());
     }
@@ -181,8 +184,12 @@ public class MenuDataLoader {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             FlatMenuItem that = (FlatMenuItem) o;
 
