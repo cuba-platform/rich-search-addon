@@ -1,5 +1,6 @@
 package com.haulmont.addon.search.web.gui.components;
 
+import com.google.common.collect.Lists;
 import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.gui.components.RichSearch;
 import com.haulmont.addon.search.presenter.SearchPresenter;
@@ -10,9 +11,9 @@ import com.haulmont.addon.search.strategy.SearchStrategy;
 import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -98,13 +99,16 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
     }
 
     protected List<SearchEntity> search(String searchString, Map<String, Object> searchParams) {
-        return presenter != null ? presenter.load(context.withParams(searchParams), searchString)
-                : Collections.emptyList();
+        List<SearchEntity> searchResult = Lists.newArrayList();
+        if (presenter != null) {
+            searchResult = presenter.load(context.withParams(searchParams), searchString);
+        }
+        return CollectionUtils.isNotEmpty(searchResult) ? searchResult : Lists.newArrayList(SearchEntity.NO_RESULTS);
     }
 
     protected String defaultOptionsStyleProvider(Component component, Object o) {
 
-        if (! (o instanceof SearchEntry)) {
+        if (! (o instanceof SearchEntry) || SearchEntity.NO_RESULTS.equals(o)) {
             return StringUtils.EMPTY;
         }
 

@@ -5,6 +5,7 @@ import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.chile.core.model.impl.AbstractInstance;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.Messages;
 import com.haulmont.cuba.core.global.Metadata;
 
 import javax.persistence.Id;
@@ -22,12 +23,15 @@ import javax.persistence.Id;
 public class SearchEntity extends AbstractInstance implements Entity<String>, SearchEntry {
 
     public static final SearchEntity EMPTY = new SearchEntity(new DefaultSearchEntry(null, "", "", null));
+    public static final SearchEntity NO_RESULTS
+            = new SearchEntity(new DefaultSearchEntry(null, "", AppBeans.get(Messages.class).getMainMessage("noResultsFound"), null));
 
     protected SearchEntry delegate;
 
-    public SearchEntity() {}
+    public SearchEntity() {
+    }
 
-    public<T extends SearchEntry> SearchEntity(T delegate) {
+    public <T extends SearchEntry> SearchEntity(T delegate) {
         this.delegate = delegate;
     }
 
@@ -60,8 +64,12 @@ public class SearchEntity extends AbstractInstance implements Entity<String>, Se
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         SearchEntity that = (SearchEntity) o;
 

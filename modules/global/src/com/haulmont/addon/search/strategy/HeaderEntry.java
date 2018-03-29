@@ -2,6 +2,9 @@ package com.haulmont.addon.search.strategy;
 
 import com.haulmont.bali.util.Preconditions;
 
+/**
+ * Implements header for grouping of strategy results.
+ */
 public class HeaderEntry implements SearchEntry {
     protected String id;
     protected String caption;
