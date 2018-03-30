@@ -1,17 +1,18 @@
+[![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 # Rich Search Component
 
 ![Component image example](resources/search.gif)
 
 ## Overview
 
-Global Search CUBA Platform application component that will provide user ability to search many types of objects in one search field.
+Global Search [CUBA.Platform](https://www.cuba-platform.com/) application component that will provide user ability to search many types of objects in one search field.
 
 ## Component Installation
 Select a version of the add-on which is compatible with the platform version used in your project:
 
 | Platform Version | Add-on Version |
 | ---------------- | -------------- |
-| 6.8.x            | 1.0.1          |
+| 6.8.x            | 1.0.2          |
 
 Add custom application component to your project using CUBA Studio:
 
