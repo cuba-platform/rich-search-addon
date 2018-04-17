@@ -8,6 +8,7 @@ import com.haulmont.addon.search.strategy.HeaderEntry;
 import com.haulmont.addon.search.strategy.SearchEntity;
 import com.haulmont.addon.search.strategy.SearchEntry;
 import com.haulmont.addon.search.strategy.SearchStrategy;
+import com.haulmont.addon.search.web.gui.components.toolkit.ui.RichSearchField;
 import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
@@ -32,6 +33,20 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
     protected SearchPresenter presenter;
 
     public WebRichSearch() {
+
+        component = new RichSearchField();
+
+        component.setTextViewConverter(this::convertToTextView);
+
+        component.setSearchExecutor(query -> {
+            cancelSearch();
+            searchSuggestions(query);
+        });
+
+        component.setCancelSearchHandler(this::cancelSearch);
+
+        attachListener(component);
+
         setCaptionProperty("caption");
         setCaptionMode(CaptionMode.PROPERTY);
 
@@ -114,9 +129,9 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
 
         SearchEntity searchEntity = (SearchEntity) o;
         if (searchEntity.getDelegate() instanceof HeaderEntry) {
-            return "header-entry-style";
+            return "rs-header-entry";
         }
 
-        return "search-entry-style";
+        return "rs-search-entry";
     }
 }

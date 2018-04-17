@@ -37,16 +37,11 @@
                   configuration="webcontent"
                   ext="zip"
                   name="search-web"/>
-        <artifact configuration="themes"
-                  name="search-web-themes"/>
         <property name="cuba.web.componentsConfig"
                   value="+search-web-components.xml"/>
         <property name="cuba.springContextConfig"
                   value="+search-web-spring.xml"/>
         <property name="cuba.mainMessagePack"
                   value="+com.haulmont.addon.search.web"/>
-   </module>
-    <module name="web-themes">
-        <artifact name="search-web-themes"/>
     </module>
 </app-component>

@@ -1,7 +1,6 @@
 rootProject.name = 'rich-search'
-include(':search-global', ':search-core', ':search-gui', ':search-web', ':search-web-themes')
+include(':search-global', ':search-core', ':search-gui', ':search-web')
 project(':search-global').projectDir = new File(settingsDir, 'modules/global')
 project(':search-core').projectDir = new File(settingsDir, 'modules/core')
 project(':search-gui').projectDir = new File(settingsDir, 'modules/gui')
 project(':search-web').projectDir = new File(settingsDir, 'modules/web')
-project(':search-web-themes').projectDir = new File(settingsDir, 'modules/web/themes')

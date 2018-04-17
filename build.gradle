@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '6.8.5'
+    ext.cubaVersion = '6.8.6'
     repositories {
         mavenLocal()
 
@@ -22,7 +22,6 @@ def globalModule = project(':search-global')
 def coreModule = project(':search-core')
 def guiModule = project(':search-gui')
 def webModule = project(':search-web')
-def webThemesModule = project(':search-web-themes')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
 
@@ -222,30 +221,6 @@ configure(webModule) {
     task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
         appName = 'search'
         appJars('search-global', 'search-gui', 'search-web')
-    }
-    task buildScssThemes(type: CubaWebScssThemeCreation)
-    task deployThemes(type: CubaDeployThemeTask, dependsOn: buildScssThemes)
-    assemble.dependsOn buildScssThemes
-}
-
-configure(webThemesModule) {
-    apply(plugin: 'java')
-    apply(plugin: 'maven')
-    apply(plugin: 'cuba')
-
-    appModuleType = 'web-themes'
-
-    buildDir = file('../build/scss-themes')
-
-    sourceSets {
-        main {
-            java {
-                srcDir '.'
-            }
-            resources {
-                srcDir '.'
-            }
-        }
     }
 }
 
