@@ -6,11 +6,11 @@
         <artifact appJar="true"
                   name="search-global"/>
         <property name="cuba.persistenceConfig"
-                  value="+search-persistence.xml"/>
+                  value="+com/haulmont/addon/search/search-persistence.xml"/>
         <property name="cuba.metadataConfig"
-                  value="+search-metadata.xml"/>
+                  value="+com/haulmont/addon/search/search-metadata.xml"/>
         <property name="cuba.viewsConfig"
-                  value="+search-views.xml"/>
+                  value="+com/haulmont/addon/search/search-views.xml"/>
     </module>
     <module blocks="core"
             dependsOn="global"
@@ -18,7 +18,7 @@
         <artifact appJar="true"
                   name="search-core"/>
         <property name="cuba.springContextConfig"
-                  value="+spring.xml"/>
+                  value="+com/haulmont/addon/search/spring.xml"/>
         <property name="cuba.mainMessagePack"
                   value="+com.haulmont.addon.search.core"/>
     </module>
@@ -38,9 +38,9 @@
                   ext="zip"
                   name="search-web"/>
         <property name="cuba.web.componentsConfig"
-                  value="+search-web-components.xml"/>
+                  value="+com/haulmont/addon/search/search-web-components.xml"/>
         <property name="cuba.springContextConfig"
-                  value="+search-web-spring.xml"/>
+                  value="+com/haulmont/addon/search/search-web-spring.xml"/>
         <property name="cuba.mainMessagePack"
                   value="+com.haulmont.addon.search.web"/>
     </module>
