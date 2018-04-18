@@ -1,11 +1,11 @@
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 # Rich Search Component
 
-![Component image example](resources/search.gif)
+<img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/search.gif" alt="Component image example"/>
 
 ## Overview
 
-Global Search [CUBA.Platform](https://www.cuba-platform.com/) application component that will provide user ability to search many types of objects in one search field.
+Global Search [CUBA.Platform](https://www.cuba-platform.com/) application component that will provide user ability to search many types of objects in one search field. The component has already implemented the ability to search by menu items of the application. Search by any entities, their attributes, including related entities can be added programmatically.
 
 ## Component Installation
 Select a version of the add-on which is compatible with the platform version used in your project:
@@ -20,189 +20,221 @@ Add custom application component to your project using CUBA Studio:
 * Artifact name: `search-global`
 * Version: *add-on version*
 
-## Main Screen Configuration
+## Quick Start
 
-1. Create a Halo theme extension.
 1. Override the main screen via the Studio interface.
 1. Add the following code to `ext-mainwindow.xml` as it is given below:
-    ```xml
-       <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
-               class="com.haulmont.searchtest.web.screens.ExtAppMainWindow"
-               xmlns:search="http://schemas.haulmont.com/cuba/search.xsd"
-               xmlns:main="http://schemas.haulmont.com/cuba/mainwindow.xsd"
-               messagesPack="com.haulmont.searchtest.web.screens">
-           <dialogMode height="600"
-                       width="800"/>
-           <layout expand="foldersSplit">
-               <hbox id="titleBar" stylename="c-app-menubar"
-                     expand="mainMenu" width="100%" height="AUTO"
-                     spacing="true" margin="false;false;false;true">
-       
-                   <embedded id="logoImage" align="MIDDLE_LEFT" type="IMAGE" stylename="c-app-icon"/>
-       
-                   <main:menu id="mainMenu" align="MIDDLE_LEFT"/>
-       
-                   <search:richSearch id="search" align="MIDDLE_LEFT" suggestionsLimit="200" inputPrompt="msg://searching">
-                      <search:strategyBean name="search_MainMenuSearchStrategy" />
-                   </search:richSearch>
-       
-                   <main:ftsField id="ftsField" align="MIDDLE_LEFT"/>   
- 
-                   <main:userIndicator id="userIndicator" align="MIDDLE_LEFT"/>
-       
-                   <main:timeZoneIndicator id="timeZoneIndicator" align="MIDDLE_LEFT"/>
-       
-                   <hbox id="mainButtonsBox" stylename="c-main-buttons" align="MIDDLE_LEFT">
-                       <main:newWindowButton id="newWindowButton"
-                                             icon="app/images/new-window.png"
-                                             description="msg://com.haulmont.cuba.gui/newWindowBtnDescription"/>
-       
-                       <main:logoutButton id="logoutButton"
-                                          icon="app/images/exit.png"
-                                          description="msg://com.haulmont.cuba.gui/logoutBtnDescription"/>
-                   </hbox>
-               </hbox>
-       
-               <split id="foldersSplit" width="100%" orientation="horizontal" pos="200px">
-                   <main:foldersPane id="foldersPane" width="100%" height="100%"/>
-       
-                   <main:workArea id="workArea" width="100%" height="100%">
-                       <main:initialLayout spacing="true" margin="true">
-       
-                       </main:initialLayout>
-                   </main:workArea>
-               </split>
-           </layout>
-       </window>
-    ```
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.company.rs.web.screens.ExtAppMainWindow"
+        extends="/com/haulmont/cuba/web/app/mainwindow/mainwindow.xml"
+        messagesPack="com.company.rs.web.screens"
+        xmlns:ext="http://schemas.haulmont.com/cuba/window-ext.xsd"
+        xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <hbox id="titleBar">
+            <search:richSearch id="search"
+                               align="MIDDLE_LEFT"
+                               ext:index="3"
+                               inputPrompt="msg://searching"
+                               suggestionsLimit="200">
+                <search:strategyBean name="search_MainMenuSearchStrategy"/>
+            </search:richSearch>
+        </hbox>
+    </layout>
+</window>
+```
+
+## Data Model
+
+**Search Field**
+
+Has one or more search strategies that are called for each search query.
+
+**Search Strategy**
+
+Specifies which objects should be returned for this search.
+
+**SearchEntry**
+
+Search result objects interface. Used as return types of result of the search strategy. Has id, caption и the name of search strategy which the entry belongs.
+   
+**DefaultSearchEntry**
+
+Default implementation of SearchEntry.
+    
+**SearchContext**
+
+Contains context depended data for searching mechanism (user session/additional params).
+    
+**HeaderEntry**
+
+Implements header for grouping of strategy results.
+
 
 ## Usage
 
-#### Using Declarative XML Strategy:
+Consider using the component in the following example. Make a search by system users. The corresponding editing screen will be opened for the found user.
+ 
+The search will be carried out by login. To do this, use the following code:
 
-1. **Bean configuration**
+```java
+LoadContext<User> lc = LoadContext.create(User.class);
+lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('%',:loginLowerCase,'%')")
+        .setParameter("loginLowerCase", query.toLowerCase());
+```
 
-    **XML screen config**:
-    ```xml
-    <window
-        class="com.company.test.web.screens.TestWindow" 
-        xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+Let's define search strategies in several ways.
+
+#### Using A Spring Bean As Search Strategy:
+
+**Spring bean**:
+```java
+@Component("search_UsersSearchStrategy")
+public class UsersSearchStrategy implements SearchStrategy {
+    @Override
+    public List<SearchEntry> load(SearchContext context, String query) {
+        LoadContext<User> lc = LoadContext.create(User.class);
+        lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('%',:loginLowerCase,'%')")
+                .setParameter("loginLowerCase", query.toLowerCase());
+
+        return dataManager.loadList(lc).stream()
+                .map(user -> new DefaultSearchEntry(user.getId().toString(), user.getCaption(), name()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void invoke(SearchContext context, SearchEntry value) {
+        LoadContext<User> selectedUser = LoadContext.create(User.class)
+                .setId(UuidProvider.fromString(value.getId()));
+        User user = dataManager.load(selectedUser);
+        AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
+    }
+ 
+    
+    @Override
+    public String name() {
+        return "usersSearchStrategy";
+    }
+}
+```
+
+**XML screen config**:
+```xml
+<window
+    class="com.company.test.web.screens.TestWindow" 
+    xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+    ...
+    <layout>
         ...
-        <layout>
-            ...
-            <search:richSearch id="search" inputPrompt="msg://searching">
-                <search:strategyBean name="search_SearchStrategy" />
-            </search:richSearch>
-            ...
-        </layout>
+        <search:richSearch id="search" inputPrompt="msg://searching">
+            <search:strategyBean name="search_UsersSearchStrategy" />
+        </search:richSearch>
         ...
-    </window>
-    ```
-    **Spring bean**:
-    ```java
-    @Component("search_SearchStrategy")
-    public class MySearchStrategy implements SearchStrategy {
-        @Override
-        public List<SearchEntry> load(SearchContext context, String query) {
-            //searching implementation
-        }
+    </layout>
+    ...
+</window>
+```
+
+**Localization**
+
+Add entry to main message pack in format
+```text
+searchStrategy.{strategyName} = Strategy name
+```
+For example, 
+```text
+searchStrategy.usersSearchStrategy = Users
+```
+    
+### Using Controller Methods**
+
+**XML screen config**:
+```xml
+<window
+    class="com.company.test.web.screens.MyWindowController" 
+    xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+    ...
+    <layout>
+        ...
+        <search:richSearch id="search" inputPrompt="msg://searching">
+            <search:strategy name="usersSearchStrategy" searchMethod="search" invokeMethod="invoke" />
+        </search:richSearch>
+        ...
+    </layout>
+    ...
+</window>
+```
+    
+**Screen controller**:
+```java
+public class MyWindowController extends AbstractWindow {
+    
+    @Inject
+    protected DataManager dataManager;
+
+    public List<SearchEntry> search(SearchContext context, String query) {
+        LoadContext<User> lc = LoadContext.create(User.class);
+        lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('%',:loginLowerCase,'%')")
+                .setParameter("loginLowerCase", query.toLowerCase());
+
+        return dataManager.loadList(lc).stream()
+                .map(user -> new DefaultSearchEntry(user.getId().toString(), user.getCaption(), "usersSearchStrategy"))
+                .collect(Collectors.toList());
+    }
    
-        @Override
-        public void invoke(SearchContext context, SearchEntry value) {
-            //choosing behavior implementation
-        }
-     
-        
-        @Override
-        public String name() {
-            return "myStrategy";
-        }
+    public void invoke(SearchContext context, SearchEntry searchEntry) {
+        LoadContext<User> selectedUser = LoadContext.create(User.class)
+                .setId(UuidProvider.fromString(searchEntry.getId()));
+        User user = dataManager.load(selectedUser);
+        AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
     }
-    ```
-    **Localization**
-    
-    Add entry to main message pack in format
-    ```text
-    searchStrategy.{strategyName} = Strategy name
-    ```
-    For example, 
-    ```text
-    searchStrategy.myStrategy = My strategy
-    ```
-    
-1. **Configuration of references for frame methods**
-
-    **XML screen config**:
-    ```xml
-    <window
-        class="com.company.test.web.screens.TestWindow" 
-        xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
-        ...
-        <layout>
-            ...
-            <search:richSearch id="search" inputPrompt="msg://searching">
-                <search:strategy name="customStrategy" searchMethod="search" invokeMethod="invoke" />
-            </search:richSearch>
-            ...
-        </layout>
-        ...
-    </window>
-    ```
-    
-    **Screen controller**:
-    ```java
-    public class MyWindowController implements Window {
-        public List<SearchEntry> search(SearchContext context, String query) {
-            //searching implementation
-        }
-       
-        public void invoke(SearchContext context, SearchEntry searchEntry) {
-            //choosing behavior implementation
-        }
-    }
-    ```
+}
+```
 
 #### Using Programmatic Strategy
     
 **Screen controller**:
 
 ```java
-    public class MyWindowController implements Window {
-    
-        @Inject
-        private RichSearch search;
-    
-        @Override
-        public void init(Map<String, Object> params) {
-            super.init(params);
-    
-            List<DefaultSearchEntry> variants = new ArrayList<>();
-            
-            //variants initialisation
-            
-            search.addStrategy(
-                    "custom" /* strategy name */, 
-                        (query)-> { /* lambda searching implementation */ },
-                        (value)-> { /* lambda choosing behavior */ }
-            );
-        }
+public class MyWindowController implements Window {
+
+    @Inject
+    protected DataManager dataManager;
+
+    @Inject
+    protected RichSearch search;
+
+    @Override
+    public void init(Map<String, Object> params) {
+        super.init(params);
+
+        search.addStrategy("usersSearchStrategy", query -> {
+            LoadContext<User> lc = LoadContext.create(User.class);
+            lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('%',:loginLowerCase,'%')")
+                    .setParameter("loginLowerCase", query.toLowerCase());
+
+            return dataManager.loadList(lc).stream()
+                    .map(user -> new DefaultSearchEntry(user.getId().toString(), user.getCaption(), "usersSearchStrategy"))
+                    .collect(Collectors.toList());
+        }, searchEntry -> {
+            LoadContext<User> selectedUser = LoadContext.create(User.class)
+                    .setId(UuidProvider.fromString(searchEntry.getId()));
+            User user = dataManager.load(selectedUser);
+            AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
+        });
     }
-```
-
-## Using Custom Themes
-
-If a custom theme is used in your project, aff the following stypes:
-
-```css
-.header-entry-style {
-    background-color: silver;
-    pointer-events: none;
-}
-
-.search-entry-style {
-    padding-left:30px;
 }
 ```
+
+The result is:
+
+<img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/users-search.gif" alt="User search example"/>
+
 
 ## Known issues
 
