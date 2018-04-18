@@ -109,9 +109,9 @@ public class UsersSearchStrategy implements SearchStrategy {
 
     @Override
     public void invoke(SearchContext context, SearchEntry value) {
-        LoadContext<User> selectedUser = LoadContext.create(User.class)
+        LoadContext<User> lc = LoadContext.create(User.class)
                 .setId(UuidProvider.fromString(value.getId()));
-        User user = dataManager.load(selectedUser);
+        User user = dataManager.load(lc);
         AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
     }
  
@@ -188,9 +188,9 @@ public class MyWindowController extends AbstractWindow {
     }
    
     public void invoke(SearchContext context, SearchEntry searchEntry) {
-        LoadContext<User> selectedUser = LoadContext.create(User.class)
+        LoadContext<User> lc = LoadContext.create(User.class)
                 .setId(UuidProvider.fromString(searchEntry.getId()));
-        User user = dataManager.load(selectedUser);
+        User user = dataManager.load(lc);
         AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
     }
 }
@@ -222,9 +222,9 @@ public class MyWindowController implements Window {
                     .map(user -> new DefaultSearchEntry(user.getId().toString(), user.getCaption(), "usersSearchStrategy"))
                     .collect(Collectors.toList());
         }, searchEntry -> {
-            LoadContext<User> selectedUser = LoadContext.create(User.class)
+            LoadContext<User> lc = LoadContext.create(User.class)
                     .setId(UuidProvider.fromString(searchEntry.getId()));
-            User user = dataManager.load(selectedUser);
+            User user = dataManager.load(lc);
             AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
         });
     }
