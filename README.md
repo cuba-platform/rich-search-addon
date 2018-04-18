@@ -201,7 +201,7 @@ public class MyWindowController extends AbstractWindow {
 **Screen controller**:
 
 ```java
-public class MyWindowController implements Window {
+public class MyWindowController extends AbstractWindow {
 
     @Inject
     protected DataManager dataManager;
