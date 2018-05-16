@@ -40,7 +40,7 @@ Add custom application component to your project using CUBA Studio:
             <search:richSearch id="search"
                                align="MIDDLE_LEFT"
                                ext:index="3"
-                               inputPrompt="msg://searching"
+                               inputPrompt="msg://search"
                                suggestionsLimit="200">
                 <search:strategyBean name="search_MainMenuSearchStrategy"/>
             </search:richSearch>
@@ -69,7 +69,7 @@ Default implementation of SearchEntry.
     
 **SearchContext**
 
-Contains context depended data for searching mechanism (user session/additional params).
+Contains context depended data for search mechanism (user session/additional params).
     
 **HeaderEntry**
 
@@ -131,7 +131,7 @@ public class UsersSearchStrategy implements SearchStrategy {
     ...
     <layout>
         ...
-        <search:richSearch id="search" inputPrompt="msg://searching">
+        <search:richSearch id="search" inputPrompt="msg://search">
             <search:strategyBean name="search_UsersSearchStrategy" />
         </search:richSearch>
         ...
@@ -161,7 +161,7 @@ searchStrategy.usersSearchStrategy = Users
     ...
     <layout>
         ...
-        <search:richSearch id="search" inputPrompt="msg://searching">
+        <search:richSearch id="search" inputPrompt="msg://search">
             <search:strategy name="usersSearchStrategy" searchMethod="search" invokeMethod="invoke" />
         </search:richSearch>
         ...
