@@ -12,7 +12,7 @@ Select a version of the add-on which is compatible with the platform version use
 
 | Platform Version | Add-on Version |
 | ---------------- | -------------- |
-| 6.8.x            | 1.0.2          |
+| 6.8.x            | 1.0.3          |
 
 Add custom application component to your project using CUBA Studio:
 
