@@ -5,25 +5,37 @@
 
 ## Overview
 
-Global Search [CUBA.Platform](https://www.cuba-platform.com/) application component that will provide user ability to search many types of objects in one search field. The component has already implemented the ability to search by menu items of the application. Search by any entities, their attributes, including related entities can be added programmatically.
+The Global Search application component is designed to search for various types of objects using a single field. 
+The component provides an out-of-the-box solution for searching by application menu items. It is also possible to 
+configure the addon to search for entities (including related ones) and their attributes.
 
-## Component Installation
-Select a version of the add-on which is compatible with the platform version used in your project:
+## Installation
+To add the component to your project, the following steps should be taken:
 
-| Platform Version | Add-on Version |
-| ---------------- | -------------- |
-| 6.8.x            | 1.0.3          |
+1. Open your application in CUBA Studio. 
 
-Add custom application component to your project using CUBA Studio:
+2. Edit Project properties.
 
-* Artifact group: `com.haulmont.addon.search`
-* Artifact name: `search-global`
-* Version: *add-on version*
+3. Click the plus button in the *App components* section of the *Main* tab.
+
+4. Specify the coordinates of the component in the corresponding field as follows: group:name:version.
+   Click *OK* to confirm the operation.
+    
+    * Artifact group: *com.haulmont.addon.search*
+    * Artifact name: *search-global*
+    * Version: *add-on version*
+    
+        When specifying the component version, you should select the one, which is compatible with the platform version used
+    in your project.
+    
+    | Platform Version | Component Version |
+    |------------------|-------------------|
+    | 6.8.X            | 1.0.3      |
 
 ## Quick Start
 
 1. Override the main screen via the Studio interface.
-1. Add the following code to `ext-mainwindow.xml` as it is given below:
+1. Add the following code to `ext-mainwindow.xml`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -51,36 +63,38 @@ Add custom application component to your project using CUBA Studio:
 
 ## Data Model
 
-**Search Field**
+### Search Field
 
-Has one or more search strategies that are called for each search query.
+Search Field provides one or several search strategies that are called for each search query.
 
-**Search Strategy**
+### Search Strategy
 
-Specifies which objects should be returned for this search.
+Search Strategy defines which objects should be returned as a result of the current search request.
 
-**SearchEntry**
+## SearchEntry
 
-Search result objects interface. Used as return types of result of the search strategy. Has id, caption и the name of search strategy which the entry belongs.
-   
-**DefaultSearchEntry**
+SearchEntry is an interface designed to work with search result objects. Each SearchEntry has an id, caption
+and the name of a search strategy that it belongs to specified.
 
-Default implementation of SearchEntry.
+### DefaultSearchEntry
+
+DefaultSearchEntry defines the default implementation of SearchEntry.
     
-**SearchContext**
+### SearchContext
 
-Contains context depended data for search mechanism (user session/additional params).
+SearchContext provides the context dependent data for the search mechanism, e.g. a user session, additional params.
     
-**HeaderEntry**
+### HeaderEntry
 
-Implements header for grouping of strategy results.
+HeaderEntry implements a header for grouping strategy results.
 
 
 ## Usage
 
-Consider using the component in the following example. Make a search by system users. The corresponding editing screen will be opened for the found user.
+Let us consider an example of how the component can be of use. Start by searching for a system user. The component finds
+the required user and opens User Editor.
  
-The search will be carried out by login. To do this, use the following code:
+The system performs search by login. In order to configure the component, use the following code:
 
 ```java
 LoadContext<User> lc = LoadContext.create(User.class);
@@ -88,7 +102,7 @@ lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('
         .setParameter("loginLowerCase", query.toLowerCase());
 ```
 
-Let's define search strategies in several ways.
+The sections below present several options to define search strategies.
 
 #### Using A Spring Bean As Search Strategy:
 
@@ -142,11 +156,11 @@ public class UsersSearchStrategy implements SearchStrategy {
 
 **Localization**
 
-Add entry to main message pack in format
+Add the following entry to the main message pack as it is given below:
 ```text
 searchStrategy.{strategyName} = Strategy name
 ```
-For example, 
+Example: 
 ```text
 searchStrategy.usersSearchStrategy = Users
 ```
