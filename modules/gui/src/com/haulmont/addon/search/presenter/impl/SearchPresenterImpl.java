@@ -31,8 +31,6 @@ import java.util.stream.Stream;
 @Scope("prototype")
 public class SearchPresenterImpl implements SearchPresenter {
 
-    public static final String STRATEGY_MESSAGE_PREFIX = "searchStrategy.";
-
     @Inject
     protected SearchContextFactory searchContextFactory;
 
@@ -83,7 +81,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     }
 
     protected SearchEntry getHeaderEntryForStrategy(SearchStrategy searchStrategy) {
-        String localizedName = messages.getMainMessage(STRATEGY_MESSAGE_PREFIX + searchStrategy.name());
+        String localizedName = messages.getMainMessage(searchStrategy.name());
         return new HeaderEntry(localizedName);
     }
 

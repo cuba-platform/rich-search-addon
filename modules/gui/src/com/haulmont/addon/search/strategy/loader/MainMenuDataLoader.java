@@ -17,12 +17,12 @@ import java.util.stream.Stream;
 /**
  * Provides searching functions to {@link com.haulmont.addon.search.strategy.MainMenuSearchStrategy}
  */
-public class MenuDataLoader {
+public class MainMenuDataLoader {
 
     protected SearchContext session;
     protected List<DefaultSearchEntry> cached;
 
-    public MenuDataLoader(SearchContext session, AppMenu appMenu) {
+    public MainMenuDataLoader(SearchContext session, AppMenu appMenu) {
         this.session = session;
         cached = mapChildren(appMenu.getMenuItems()).collect(Collectors.toList());
     }
@@ -37,7 +37,7 @@ public class MenuDataLoader {
                                 .filter(item -> item.getCommand() != null)
                                 .map(item ->
                                         new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item),
-                                                "menu", item::isVisible)
+                                                "searchStrategy.mainMenu", item::isVisible)
                                 ));
     }
 

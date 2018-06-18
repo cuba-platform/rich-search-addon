@@ -4,8 +4,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.context.SearchContextFactory;
-import com.haulmont.addon.search.strategy.loader.MainMenuDataLoader;
-import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
+import com.haulmont.addon.search.strategy.loader.SideMenuDataLoader;
+import com.haulmont.cuba.gui.components.mainwindow.SideMenu;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -15,23 +15,23 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Implements searching strategy for application main menu.<br />
- * The data loading and searching functions provided by {@link MainMenuDataLoader}
+ * The data loading and searching functions provided by {@link SideMenuDataLoader}
  * </p>
  * Also see web implementation:
  * <pre>com.haulmont.addon.search.web.configuration.MenuProvider</pre>
  */
-@Component("search_MainMenuSearchStrategy")
-public class MainMenuSearchStrategy implements SearchStrategy {
+@Component("search_SideMenuSearchStrategy")
+public class SideMenuSearchStrategy implements SearchStrategy {
 
-    protected Cache<SearchContext, MainMenuDataLoader> dataLoaderMap = CacheBuilder.newBuilder()
+    protected Cache<SearchContext, SideMenuDataLoader> dataLoaderMap = CacheBuilder.newBuilder()
             .expireAfterAccess(15, TimeUnit.MINUTES)
             .build();
     protected SearchContextFactory searchContextFactory;
-    protected AppMenu appMenu;
+    protected SideMenu appMenu;
 
     @Inject
-    public MainMenuSearchStrategy(AppMenu appMenu, SearchContextFactory searchContextFactory) {
-        this.appMenu = appMenu;
+    public SideMenuSearchStrategy(SideMenu sideMenu, SearchContextFactory searchContextFactory) {
+        this.appMenu = sideMenu;
         this.searchContextFactory = searchContextFactory;
     }
 
@@ -43,7 +43,7 @@ public class MainMenuSearchStrategy implements SearchStrategy {
         try {
             dataLoaderMap.cleanUp();
             return dataLoaderMap.get(context, () ->
-                    new MainMenuDataLoader(context, appMenu)).load(query);
+                    new SideMenuDataLoader(context, appMenu)).load(query);
         } catch (ExecutionException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -54,7 +54,7 @@ public class MainMenuSearchStrategy implements SearchStrategy {
      */
     @Override
     public void invoke(SearchContext context, SearchEntry value) {
-        AppMenu.MenuItem item = appMenu.getMenuItem(value.getId());
+        SideMenu.MenuItem item = appMenu.getMenuItem(value.getId());
         item.getCommand().accept(item);
     }
 
@@ -63,6 +63,6 @@ public class MainMenuSearchStrategy implements SearchStrategy {
      */
     @Override
     public String name() {
-        return "searchStrategy.mainMenu";
+        return "searchStrategy.sideMenu";
     }
 }

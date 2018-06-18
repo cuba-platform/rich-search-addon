@@ -1,6 +1,7 @@
 package com.haulmont.addon.search.web.configuration;
 
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
+import com.haulmont.cuba.gui.components.mainwindow.SideMenu;
 import com.haulmont.cuba.web.AppUI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +20,11 @@ public class MenuProvider {
     @Scope(value = "prototype", proxyMode = ScopedProxyMode.INTERFACES)
     public AppMenu applicationMenu() {
         return ((AppMenu) AppUI.getCurrent().getTopLevelWindow().getComponentNN("mainMenu"));
+    }
+
+    @Bean("search_SideMenu")
+    @Scope(value = "prototype", proxyMode = ScopedProxyMode.INTERFACES)
+    public SideMenu sideMenu() {
+        return ((SideMenu) AppUI.getCurrent().getTopLevelWindow().getComponentNN("sideMenu"));
     }
 }
