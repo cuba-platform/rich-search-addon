@@ -251,6 +251,11 @@ The result is:
 <img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/users-search.gif" alt="User search example"/>
 
 
+## Demo
+
+The [rich-search-addon-demo](https://github.com/zharenov/rich-search-addon-demo) project contains usage example.
+
+
 ## Known issues
 
 1. The available amount of input should be accounted for each strategy separately (no task, to be discussed).
