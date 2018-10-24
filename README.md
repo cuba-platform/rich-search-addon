@@ -254,7 +254,7 @@ The result is:
 
 ## Demo
 
-The [rich-search-addon-demo](https://github.com/zharenov/rich-search-addon-demo) project contains usage example.
+The [rich-search-addon-demo](https://github.com/cuba-platform/rich-search-addon-demo) project contains usage example.
 
 
 ## Known issues
