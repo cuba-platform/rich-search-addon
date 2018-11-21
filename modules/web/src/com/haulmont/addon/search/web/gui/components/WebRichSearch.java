@@ -13,7 +13,7 @@ import com.haulmont.cuba.gui.components.CaptionMode;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.web.gui.components.WebSuggestionField;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -35,17 +35,18 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
     public WebRichSearch() {
 
         component = new RichSearchField();
+        RichSearchField richSearchField = (RichSearchField) component;
 
-        component.setTextViewConverter(this::convertToTextView);
+        richSearchField.setTextViewConverter(this::convertToTextView);
 
-        component.setSearchExecutor(query -> {
+        richSearchField.setSearchExecutor(query -> {
             cancelSearch();
-            searchSuggestions(query);
+            searchSuggestions((String) query);
         });
 
-        component.setCancelSearchHandler(this::cancelSearch);
+        richSearchField.setCancelSearchHandler(this::cancelSearch);
 
-        attachListener(component);
+        attachValueChangeListener(component);
 
         setCaptionProperty("caption");
         setCaptionMode(CaptionMode.PROPERTY);
@@ -85,8 +86,11 @@ public class WebRichSearch extends WebSuggestionField implements RichSearch {
      */
     @Override
     public void addValueChangeListener(BiConsumer<SearchContext, SearchEntry> listener) {
-        super.addValueChangeListener(e -> listener.accept(context,
-                e.getValue() == null ? null : ((SearchEntity) e.getValue()).getDelegate()));
+        super.addValueChangeListener(e -> {
+            ValueChangeEvent changeEvent = (ValueChangeEvent) e;
+            listener.accept(context,
+                    changeEvent.getValue() == null ? null : ((SearchEntity) changeEvent.getValue()).getDelegate());
+        });
     }
 
     /**

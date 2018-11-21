@@ -4,8 +4,8 @@ import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.strategy.DefaultSearchEntry;
 import com.haulmont.addon.search.strategy.SearchEntry;
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
