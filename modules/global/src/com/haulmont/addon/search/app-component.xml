@@ -19,6 +19,6 @@
         <artifact name="search-web" appJar="true"/>
         <artifact name="search-web" classifier="web" ext="zip" configuration="webcontent"/>
 
-        <property name="cuba.springContextConfig" value="+com/haulmont/addon/search/search-web-spring.xml"/>        <property name="cuba.dispatcherSpringContextConfig" value="+com/haulmont/addon/search/search-dispatcher-spring.xml"/>        <property name="cuba.windowConfig" value="+com/haulmont/addon/search/search-web-screens.xml"/>        <property name="cuba.menuConfig" value="+com/haulmont/addon/search/search-web-menu.xml"/>        <property name="cuba.permissionConfig" value="+com/haulmont/addon/search/search-web-permissions.xml"/>        <property name="cuba.mainMessagePack" value="+com.haulmont.addon.search.web"/>
+        <property name="cuba.springContextConfig" value="+com/haulmont/addon/search/search-web-spring.xml"/>        <property name="cuba.dispatcherSpringContextConfig" value="+com/haulmont/addon/search/search-dispatcher-spring.xml"/>        <property name="cuba.windowConfig" value="+com/haulmont/addon/search/search-web-screens.xml"/>        <property name="cuba.menuConfig" value="+com/haulmont/addon/search/search-web-menu.xml"/>        <property name="cuba.permissionConfig" value="+com/haulmont/addon/search/search-web-permissions.xml"/>        <property name="cuba.web.componentsConfig" value="+com/haulmont/addon/search/search-web-components.xml"/>        <property name="cuba.mainMessagePack" value="+com.haulmont.addon.search.web"/>
     </module>
 </app-component>
