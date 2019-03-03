@@ -3,9 +3,9 @@ package com.haulmont.addon.search.strategy.loader;
 import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.strategy.DefaultSearchEntry;
 import com.haulmont.addon.search.strategy.SearchEntry;
-import com.haulmont.cuba.gui.components.mainwindow.SideMenu;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,28 +15,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Provides searching functions to {@link com.haulmont.addon.search.strategy.SideMenuSearchStrategy}
+ * Provides searching functions to {@link com.haulmont.addon.search.strategy.MainMenuSearchStrategy}
  */
-public class SideMenuDataLoader {
+public class MainMenuDataLoader {
 
     protected SearchContext session;
     protected List<DefaultSearchEntry> cached;
 
-    public SideMenuDataLoader(SearchContext session, SideMenu sideMenu) {
+    public MainMenuDataLoader(SearchContext session, AppMenu appMenu) {
         this.session = session;
-        cached = mapChildren(sideMenu.getMenuItems()).collect(Collectors.toList());
+        cached = mapChildren(appMenu.getMenuItems()).collect(Collectors.toList());
     }
 
-    protected Stream<DefaultSearchEntry> mapChildren(List<SideMenu.MenuItem> roots) {
+    protected Stream<DefaultSearchEntry> mapChildren(List<AppMenu.MenuItem> roots) {
         return roots.stream()
                 .flatMap(root ->
                         root.getChildren().stream()
                                 .map(item -> new FlatMenuItem(item, root))
                                 .flatMap(this::traverse)
+                                .filter(item -> ! item.isSeparator())
                                 .filter(item -> item.getCommand() != null)
                                 .map(item ->
                                         new DefaultSearchEntry(item.getId(), getQueryString(item), getCaption(root, item),
-                                                "searchStrategy.sideMenu", item::isVisible)
+                                                "searchStrategy.mainMenu", item::isVisible)
                                 ));
     }
 
@@ -48,7 +49,7 @@ public class SideMenuDataLoader {
                 .flatMap(this::traverse));
     }
 
-    protected String getCaption(SideMenu.MenuItem topRoot, FlatMenuItem item) {
+    protected String getCaption(AppMenu.MenuItem topRoot, FlatMenuItem item) {
         return topRoot.equals(item.getParent()) ?
                 String.format("%s > %s", topRoot.getCaption(), item.getCaption()) :
                 String.format("%s > ... > %s", topRoot.getCaption(), item.getCaption());
@@ -68,16 +69,16 @@ public class SideMenuDataLoader {
                 .collect(Collectors.toList());
     }
 
-    protected class FlatMenuItem implements SideMenu.MenuItem {
+    protected class FlatMenuItem implements AppMenu.MenuItem {
 
-        protected SideMenu.MenuItem delegate;
-        protected SideMenu.MenuItem parent;
+        protected AppMenu.MenuItem delegate;
+        protected AppMenu.MenuItem parent;
 
-        public FlatMenuItem(SideMenu.MenuItem delegate) {
+        public FlatMenuItem(AppMenu.MenuItem delegate) {
             this.delegate = delegate;
         }
 
-        public FlatMenuItem(SideMenu.MenuItem delegate, SideMenu.MenuItem parent) {
+        public FlatMenuItem(AppMenu.MenuItem delegate, AppMenu.MenuItem parent) {
             this.delegate = delegate;
             this.parent = parent;
         }
@@ -88,7 +89,7 @@ public class SideMenuDataLoader {
         }
 
         @Override
-        public SideMenu getMenu() {
+        public AppMenu getMenu() {
             return delegate.getMenu();
         }
 
@@ -120,32 +121,12 @@ public class SideMenuDataLoader {
         }
 
         @Override
-        public boolean isCaptionAsHtml() {
-            return false;
-        }
-
-        @Override
-        public void setCaptionAsHtml(boolean captionAsHtml) {
-
-        }
-
-        @Override
         public boolean isVisible() {
             return delegate.isVisible();
         }
 
         @Override
         public void setVisible(boolean visible) {
-        }
-
-        @Override
-        public boolean isExpanded() {
-            return false;
-        }
-
-        @Override
-        public void setExpanded(boolean expanded) {
-
         }
 
         @Override
@@ -158,44 +139,24 @@ public class SideMenuDataLoader {
         }
 
         @Override
-        public void addStyleName(String styleName) {
-
-        }
-
-        @Override
-        public void removeStyleName(String styleName) {
-
-        }
-
-        @Override
-        public String getBadgeText() {
-            return null;
-        }
-
-        @Override
-        public void setBadgeText(String badgeText) {
-
-        }
-
-        @Override
-        public Consumer<SideMenu.MenuItem> getCommand() {
+        public Consumer<AppMenu.MenuItem> getCommand() {
             return delegate.getCommand();
         }
 
         @Override
-        public void setCommand(Consumer<SideMenu.MenuItem> command) {
+        public void setCommand(Consumer<AppMenu.MenuItem> command) {
         }
 
         @Override
-        public void addChildItem(SideMenu.MenuItem menuItem) {
+        public void addChildItem(AppMenu.MenuItem menuItem) {
         }
 
         @Override
-        public void addChildItem(SideMenu.MenuItem menuItem, int index) {
+        public void addChildItem(AppMenu.MenuItem menuItem, int index) {
         }
 
         @Override
-        public void removeChildItem(SideMenu.MenuItem menuItem) {
+        public void removeChildItem(AppMenu.MenuItem menuItem) {
         }
 
         @Override
@@ -203,12 +164,7 @@ public class SideMenuDataLoader {
         }
 
         @Override
-        public void removeAllChildItems() {
-
-        }
-
-        @Override
-        public List<SideMenu.MenuItem> getChildren() {
+        public List<AppMenu.MenuItem> getChildren() {
             return delegate.getChildren();
         }
 
@@ -217,13 +173,13 @@ public class SideMenuDataLoader {
             return delegate.hasChildren();
         }
 
-        public SideMenu.MenuItem getParent() {
-            return parent;
+        @Override
+        public boolean isSeparator() {
+            return delegate.isSeparator();
         }
 
-        @Override
-        public SideMenu.MenuItem getParentNN() {
-            return null;
+        public AppMenu.MenuItem getParent() {
+            return parent;
         }
 
         @Override

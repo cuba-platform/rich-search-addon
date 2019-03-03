@@ -6,6 +6,9 @@ import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.context.SearchContextFactory;
 import com.haulmont.addon.search.strategy.loader.MainMenuDataLoader;
 import com.haulmont.cuba.gui.components.mainwindow.AppMenu;
+import com.haulmont.cuba.web.AppUI;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -21,18 +24,19 @@ import java.util.concurrent.TimeUnit;
  * <pre>com.haulmont.addon.search.web.configuration.MenuProvider</pre>
  */
 @Component("search_MainMenuSearchStrategy")
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class MainMenuSearchStrategy implements SearchStrategy {
 
     protected Cache<SearchContext, MainMenuDataLoader> dataLoaderMap = CacheBuilder.newBuilder()
             .expireAfterAccess(15, TimeUnit.MINUTES)
             .build();
     protected SearchContextFactory searchContextFactory;
-    protected AppMenu appMenu;
+    protected AppUI appUI;
 
     @Inject
-    public MainMenuSearchStrategy(AppMenu appMenu, SearchContextFactory searchContextFactory) {
-        this.appMenu = appMenu;
+    public MainMenuSearchStrategy(SearchContextFactory searchContextFactory) {
         this.searchContextFactory = searchContextFactory;
+        this.appUI = AppUI.getCurrent();
     }
 
     /**
@@ -43,10 +47,14 @@ public class MainMenuSearchStrategy implements SearchStrategy {
         try {
             dataLoaderMap.cleanUp();
             return dataLoaderMap.get(context, () ->
-                    new MainMenuDataLoader(context, appMenu)).load(query);
+                    new MainMenuDataLoader(context, getAppMenu())).load(query);
         } catch (ExecutionException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    protected AppMenu getAppMenu() {
+        return ((AppMenu) appUI.getTopLevelWindow().getComponentNN("mainMenu"));
     }
 
     /**
@@ -54,7 +62,7 @@ public class MainMenuSearchStrategy implements SearchStrategy {
      */
     @Override
     public void invoke(SearchContext context, SearchEntry value) {
-        AppMenu.MenuItem item = appMenu.getMenuItem(value.getId());
+        AppMenu.MenuItem item = getAppMenu().getMenuItem(value.getId());
         item.getCommand().accept(item);
     }
 

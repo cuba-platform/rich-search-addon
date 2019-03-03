@@ -13,7 +13,8 @@ import com.haulmont.addon.search.strategy.SearchEntity;
 import com.haulmont.addon.search.strategy.SearchEntry;
 import com.haulmont.addon.search.strategy.SearchStrategy;
 import com.haulmont.cuba.core.global.Messages;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component(SearchPresenter.NAME)
-@Scope("prototype")
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SearchPresenterImpl implements SearchPresenter {
 
     @Inject

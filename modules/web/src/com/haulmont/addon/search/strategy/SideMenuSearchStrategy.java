@@ -6,6 +6,9 @@ import com.haulmont.addon.search.context.SearchContext;
 import com.haulmont.addon.search.context.SearchContextFactory;
 import com.haulmont.addon.search.strategy.loader.SideMenuDataLoader;
 import com.haulmont.cuba.gui.components.mainwindow.SideMenu;
+import com.haulmont.cuba.web.AppUI;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -21,18 +24,19 @@ import java.util.concurrent.TimeUnit;
  * <pre>com.haulmont.addon.search.web.configuration.MenuProvider</pre>
  */
 @Component("search_SideMenuSearchStrategy")
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class SideMenuSearchStrategy implements SearchStrategy {
 
     protected Cache<SearchContext, SideMenuDataLoader> dataLoaderMap = CacheBuilder.newBuilder()
             .expireAfterAccess(15, TimeUnit.MINUTES)
             .build();
     protected SearchContextFactory searchContextFactory;
-    protected SideMenu appMenu;
+    protected AppUI appUI;
 
     @Inject
-    public SideMenuSearchStrategy(SideMenu sideMenu, SearchContextFactory searchContextFactory) {
-        this.appMenu = sideMenu;
+    public SideMenuSearchStrategy(SearchContextFactory searchContextFactory) {
         this.searchContextFactory = searchContextFactory;
+        this.appUI = AppUI.getCurrent();
     }
 
     /**
@@ -43,7 +47,7 @@ public class SideMenuSearchStrategy implements SearchStrategy {
         try {
             dataLoaderMap.cleanUp();
             return dataLoaderMap.get(context, () ->
-                    new SideMenuDataLoader(context, appMenu)).load(query);
+                    new SideMenuDataLoader(context, getAppMenu())).load(query);
         } catch (ExecutionException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -54,7 +58,7 @@ public class SideMenuSearchStrategy implements SearchStrategy {
      */
     @Override
     public void invoke(SearchContext context, SearchEntry value) {
-        SideMenu.MenuItem item = appMenu.getMenuItem(value.getId());
+        SideMenu.MenuItem item = getAppMenu().getMenuItem(value.getId());
         item.getCommand().accept(item);
     }
 
@@ -64,5 +68,9 @@ public class SideMenuSearchStrategy implements SearchStrategy {
     @Override
     public String name() {
         return "searchStrategy.sideMenu";
+    }
+
+    protected SideMenu getAppMenu() {
+        return ((SideMenu) appUI.getTopLevelWindow().getComponentNN("sideMenu"));
     }
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -57,7 +58,7 @@ import java.util.stream.Stream;
  * @see ContextualSearchStrategy
  */
 @Component("search_RichSearchConfigurationMapper")
-@Scope("prototype")
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class RichSearchConfigurationMapper {
 
     @Autowired

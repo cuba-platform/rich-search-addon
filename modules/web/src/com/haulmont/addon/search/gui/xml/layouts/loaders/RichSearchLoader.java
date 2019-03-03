@@ -21,7 +21,7 @@ public class RichSearchLoader extends SuggestionFieldLoader {
      */
     @Override
     public void createComponent() {
-        resultComponent = (RichSearch) factory.createComponent(RichSearch.NAME);
+        resultComponent = (RichSearch) factory.create(RichSearch.NAME);
         loadId(resultComponent, element);
     }
 
