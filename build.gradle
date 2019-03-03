@@ -30,6 +30,7 @@ def servletApi = 'javax.servlet:javax.servlet-api:3.1.0'
 
 
 apply(plugin: 'cuba')
+apply(plugin: 'addon-gradle-plugin')
 
 cuba {
     artifact {
@@ -53,7 +54,7 @@ configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
     apply(plugin: 'maven')
     apply(plugin: 'cuba')
-    apply(plugin: 'checkstyle')
+    apply(plugin: 'addon-gradle-plugin')
 
     dependencies {
         testCompile('junit:junit:4.12')
