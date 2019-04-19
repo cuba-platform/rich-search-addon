@@ -69,7 +69,7 @@ public class MainMenuDataLoader {
                 .collect(Collectors.toList());
     }
 
-    protected class FlatMenuItem implements AppMenu.MenuItem {
+    protected static class FlatMenuItem implements AppMenu.MenuItem {
 
         protected AppMenu.MenuItem delegate;
         protected AppMenu.MenuItem parent;

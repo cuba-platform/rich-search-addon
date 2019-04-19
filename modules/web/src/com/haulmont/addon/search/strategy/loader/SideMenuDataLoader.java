@@ -68,7 +68,7 @@ public class SideMenuDataLoader {
                 .collect(Collectors.toList());
     }
 
-    protected class FlatMenuItem implements SideMenu.MenuItem {
+    protected static class FlatMenuItem implements SideMenu.MenuItem {
 
         protected SideMenu.MenuItem delegate;
         protected SideMenu.MenuItem parent;

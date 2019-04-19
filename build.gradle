@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.cubaVersion = '7.0.1'
+    ext.cubaVersion = '7.0.4'
     repositories {
         mavenLocal()
 
@@ -25,7 +25,7 @@ buildscript {
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
-        classpath "com.haulmont.gradle:addon-gradle-plugin:1.0.4"
+        classpath "com.haulmont.gradle:addon-gradle-plugin:1.0.7"
     }
 }
 
