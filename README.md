@@ -3,20 +3,31 @@
     <a href="https://travis-ci.org/cuba-platform/rich-search-addon"><img src="https://travis-ci.org/cuba-platform/rich-search-addon.svg?branch=master" alt="Build Status" title=""></a>
 </p>
 
-# Rich Search Component
-
-<img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/search.gif" alt="Component image example"/>
+- [Overview](#overview)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Data Model](#data-model)
+- [Usage](#usage)
+- [Known Issues](#known-issues)
 
 ## Overview
 
-The Global Search application component is designed to search for various types of objects using a single field. 
-The component provides an out-of-the-box solution for searching by application menu items. It is also possible to 
-configure the addon to search for entities (including related ones) and their attributes.
+The add-on is designed to search for various types of objects using a single field. This out-of-the-box solution enables searching by application menu items.
+
+You can configure your application to search for entities including related ones as well as entity attributes.
+
+Key features:
+- A single field for searching.
+- Customizable search strategy.
+
+<img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/search.gif" alt="Component image example"/>
+
+See [sample application](https://github.com/cuba-platform/rich-search-addon-demo), using this add-on.
 
 ## Installation
 To add the component to your project, the following steps should be taken:
 
-1. Open your application in CUBA Studio. 
+1. Open your application in CUBA Studio.
 
 2. Edit Project properties.
 
@@ -24,20 +35,21 @@ To add the component to your project, the following steps should be taken:
 
 4. Specify the coordinates of the component in the corresponding field as follows: group:name:version.
    Click *OK* to confirm the operation.
-    
+
     * Artifact group: *com.haulmont.addon.search*
     * Artifact name: *search-global*
     * Version: *add-on version*
-    
-        When specifying the component version, you should select the one, which is compatible with the platform version used
-    in your project.
-    
-    | Platform Version | Component Version |
-    |------------------|-------------------|
-    | 7.0.X            | 1.4.0             |
-    | 6.10.X           | 1.3.0             |
-    | 6.9.X            | 1.2.0             |
-    | 6.8.X            | 1.0.3             |   
+
+   When specifying the component version, you should select the one, which is compatible with the platform version used in your project.
+
+| Platform Version | Component Version |
+|------------------|-------------------|
+| 7.0.X            | 1.4.0             |
+| 6.10.X           | 1.3.0             |
+| 6.9.X            | 1.2.0             |
+| 6.8.X            | 1.0.3             |   
+
+5. Click *OK* to confirm the operation.
 
 ## Quick Start
 
@@ -86,11 +98,11 @@ and the name of a search strategy that it belongs to specified.
 ### DefaultSearchEntry
 
 DefaultSearchEntry defines the default implementation of SearchEntry.
-    
+
 ### SearchContext
 
 SearchContext provides the context dependent data for the search mechanism, e.g. a user session, additional params.
-    
+
 ### HeaderEntry
 
 HeaderEntry implements a header for grouping strategy results.
@@ -100,7 +112,7 @@ HeaderEntry implements a header for grouping strategy results.
 
 Let us consider an example of how the component can be of use. Start by searching for a system user. The component finds
 the required user and opens User Editor.
- 
+
 The system performs search by login. In order to configure the component, use the following code:
 
 ```java
@@ -135,8 +147,8 @@ public class UsersSearchStrategy implements SearchStrategy {
         User user = dataManager.load(lc);
         AppUI.getCurrent().getTopLevelWindow().openEditor(user, WindowManager.OpenType.NEW_TAB);
     }
- 
-    
+
+
     @Override
     public String name() {
         return "usersSearchStrategy";
@@ -147,7 +159,7 @@ public class UsersSearchStrategy implements SearchStrategy {
 **XML screen config**:
 ```xml
 <window
-    class="com.company.test.web.screens.TestWindow" 
+    class="com.company.test.web.screens.TestWindow"
     xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
     ...
     <layout>
@@ -167,17 +179,17 @@ Add the following entry to the main message pack as it is given below:
 ```text
 searchStrategy.{strategyName} = Strategy name
 ```
-Example: 
+Example:
 ```text
 searchStrategy.usersSearchStrategy = Users
 ```
-    
-### Using Controller Methods**
+
+### Using Controller Methods
 
 **XML screen config**:
 ```xml
 <window
-    class="com.company.test.web.screens.MyWindowController" 
+    class="com.company.test.web.screens.MyWindowController"
     xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
     ...
     <layout>
@@ -190,11 +202,11 @@ searchStrategy.usersSearchStrategy = Users
     ...
 </window>
 ```
-    
+
 **Screen controller**:
 ```java
 public class MyWindowController extends AbstractWindow {
-    
+
     @Inject
     protected DataManager dataManager;
 
@@ -207,7 +219,7 @@ public class MyWindowController extends AbstractWindow {
                 .map(user -> new DefaultSearchEntry(user.getId().toString(), user.getCaption(), "usersSearchStrategy"))
                 .collect(Collectors.toList());
     }
-   
+
     public void invoke(SearchContext context, SearchEntry searchEntry) {
         LoadContext<User> lc = LoadContext.create(User.class)
                 .setId(UuidProvider.fromString(searchEntry.getId()));
@@ -218,7 +230,7 @@ public class MyWindowController extends AbstractWindow {
 ```
 
 #### Using Programmatic Strategy
-    
+
 **Screen controller**:
 
 ```java
@@ -255,12 +267,6 @@ public class MyWindowController extends AbstractWindow {
 The result is:
 
 <img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/users-search.gif" alt="User search example"/>
-
-
-## Demo
-
-The [rich-search-addon-demo](https://github.com/cuba-platform/rich-search-addon-demo) project contains usage example.
-
 
 ## Known issues
 
