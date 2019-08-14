@@ -123,7 +123,12 @@ public class RichSearchConfigurationMapper {
         return new ContextualSearchStrategy<>(name,
                 (ctx, query) -> {
                     try {
-                        return (List<SearchEntry>) MethodUtils.invokeMethod(((ComponentLoader.ComponentContext) context).getFrame(), searcher, ctx, query);
+                        return (List<SearchEntry>) MethodUtils.invokeMethod(
+                                ((ComponentLoader.ComponentContext) context).getFrame(),
+                                searcher,
+                                ctx,
+                                query
+                        );
                     } catch (Exception e) {
                         logger.warn(e.getMessage(), e);
                         return Collections.emptyList();
