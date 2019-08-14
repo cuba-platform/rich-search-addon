@@ -21,11 +21,12 @@ import com.haulmont.addon.search.context.SearchConfiguration;
 import com.haulmont.addon.search.strategy.ContextualSearchStrategy;
 import com.haulmont.addon.search.strategy.SearchEntry;
 import com.haulmont.addon.search.strategy.SearchStrategy;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.gui.xml.layout.ComponentLoader;
 import com.haulmont.cuba.gui.xml.layout.ComponentLoader.Context;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.dom4j.Element;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -77,9 +78,6 @@ import java.util.stream.Stream;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class RichSearchConfigurationMapper {
 
-    @Autowired
-    protected ApplicationContext injector;
-
     @Inject
     protected Logger logger;
 
@@ -106,7 +104,7 @@ public class RichSearchConfigurationMapper {
         String name = element.attributeValue("name");
         Preconditions.checkNotNull(name);
         try {
-            return injector.getBean(name, SearchStrategy.class);
+            return AppBeans.get(name, SearchStrategy.class);
         } catch (Exception e) {
             logger.warn(e.getMessage(), e);
             return null;
@@ -125,14 +123,14 @@ public class RichSearchConfigurationMapper {
         return new ContextualSearchStrategy<>(name,
                 (ctx, query) -> {
                     try {
-                        return (List<SearchEntry>) MethodUtils.invokeMethod(context.getFrame(), searcher, ctx, query);
+                        return (List<SearchEntry>) MethodUtils.invokeMethod(((ComponentLoader.ComponentContext) context).getFrame(), searcher, ctx, query);
                     } catch (Exception e) {
                         logger.warn(e.getMessage(), e);
                         return Collections.emptyList();
                     }
                 }, (ctx, value) -> {
             try {
-                MethodUtils.invokeMethod(context.getFrame(), invoker, ctx, value);
+                MethodUtils.invokeMethod(((ComponentLoader.ComponentContext) context).getFrame(), invoker, ctx, value);
             } catch (Exception e) {
                 logger.warn(e.getMessage(), e);
             }
