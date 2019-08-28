@@ -61,7 +61,7 @@ apply(plugin: 'addon-gradle-plugin')
 cuba {
     artifact {
         group = 'com.haulmont.addon.search'
-        version = "1.4"
+        version = "1.5"
         isSnapshot = true
     }
     tomcat {
