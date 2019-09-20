@@ -56,6 +56,7 @@ To add the component to your project, the following steps should be taken:
 1. Override the main screen via the Studio interface.
 1. Add the following code to `ext-mainwindow.xml`:
 
+**For horizontal menu layout**
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
@@ -75,6 +76,34 @@ To add the component to your project, the following steps should be taken:
                                suggestionsLimit="200">
                 <search:strategyBean name="search_MainMenuSearchStrategy"/>
             </search:richSearch>
+        </hbox>
+    </layout>
+</window>
+```
+
+**For vertical menu layout**
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        extends="/com/haulmont/cuba/web/app/main/main-screen.xml"
+        messagesPack="com.haulmont.demo.richsearch.web.screens"
+        xmlns:ext="http://schemas.haulmont.com/cuba/window-ext.xsd"
+        xmlns:search="http://schemas.haulmont.com/cuba/search.xsd">
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <hbox id="horizontalWrap">
+            <vbox id="sideMenuPanel">
+                <vbox ext:index="4" margin="true">
+                    <search:richSearch id="search"
+                                       align="MIDDLE_LEFT"
+                                       width="100%"
+                                       inputPrompt="msg://search"
+                                       suggestionsLimit="200">
+                        <search:strategyBean name="search_SideMenuSearchStrategy"/>                        
+                    </search:richSearch>
+                </vbox>
+            </vbox>
         </hbox>
     </layout>
 </window>
