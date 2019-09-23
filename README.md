@@ -44,6 +44,7 @@ To add the component to your project, the following steps should be taken:
 
 | Platform Version | Component Version |
 |------------------|-------------------|
+| 7.1.X            | 1.5.0             |
 | 7.0.X            | 1.4.0             |
 | 6.10.X           | 1.3.0             |
 | 6.9.X            | 1.2.0             |
