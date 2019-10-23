@@ -3,8 +3,12 @@
     <a href="https://travis-ci.org/cuba-platform/rich-search-addon"><img src="https://travis-ci.org/cuba-platform/rich-search-addon.svg?branch=master" alt="Build Status" title=""></a>
 </p>
 
+# Rich Search
+
 - [Overview](#overview)
 - [Installation](#installation)
+  - [From the Marketplace](#from-the-marketplace)
+  - [By Coordinates](#by-coordinates)
 - [Quick Start](#quick-start)
 - [Data Model](#data-model)
 - [Usage](#usage)
@@ -22,37 +26,54 @@ Key features:
 
 <img src="https://github.com/cuba-platform/rich-search-addon/raw/master/resources/search.gif" alt="Component image example"/>
 
-See [sample application](https://github.com/cuba-platform/rich-search-addon-demo), using this add-on.
+See [sample application](https://github.com/cuba-platform/rich-search-addon-demo) using this add-on.
 
-## Installation
-To add the component to your project, the following steps should be taken:
+# Installation
 
-1. Open your application in CUBA Studio.
+The add-on can be added to your project in one of the ways described below. Installation from the Marketplace is the simplest way. The last version of the add-on compatible with the used version of the platform will be installed.
+Also, you can install the add-on by coordinates choosing the required version of the add-on from the table.
 
-2. Edit Project properties.
+In case you want to install the add-on by manual editing or by building from sources see the complete add-ons installation guide in [CUBA Platform documentation](https://doc.cuba-platform.com/manual-latest/manual.html#app_components_usage).
 
-3. Click the plus button in the *App components* section of the *Main* tab.
+## From the Marketplace
 
-4. Specify the coordinates of the component in the corresponding field as follows: group:name:version.
-   Click *OK* to confirm the operation.
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
 
-    * Artifact group: *com.haulmont.addon.search*
-    * Artifact name: *search-global*
-    * Version: *add-on version*
+ ![marketplace](img/marketplace.png)
 
-   When specifying the component version, you should select the one, which is compatible with the platform version used in your project.
+3. Find the Rich Search add-on there.
 
-| Platform Version | Component Version |
-|------------------|-------------------|
+ ![addons](img/addons.png)
+
+4. Click *Install* and apply the changes.
+The add-on corresponding to the used platform version will be installed.
+
+## By coordinates
+
+1. Open your application in CUBA Studio. Check the latest version of CUBA Studio on the [CUBA Platform site](https://www.cuba-platform.com/download/previous-studio/).
+2. Go to *CUBA -> Marketplace* in the main menu.
+3. Click the icon in the upper-right corner.
+
+ ![by-coordinates](img/by-coordinates.png)
+
+4. Paste the add-on coordinates in the corresponding field as follows:
+
+ `com.haulmont.addon.search:search-global:<add-on version>`
+
+ where `<add-on version>` is compatible with the used version of the CUBA platform.
+
+ | Platform Version | Add-on Version |
+|------------------|----------------|
 | 7.1.X            | 1.5.0             |
 | 7.0.X            | 1.4.0             |
 | 6.10.X           | 1.3.0             |
 | 6.9.X            | 1.2.0             |
-| 6.8.X            | 1.0.3             |   
+| 6.8.X            | 1.0.3             |
 
-5. Click *OK* to confirm the operation.
+5. Click *Install* and apply the changes. The add-on will be installed to your project.
 
-## Quick Start
+# Quick Start
 
 1. Override the main screen via the Studio interface.
 1. Add the following code to `ext-mainwindow.xml`:
@@ -110,7 +131,7 @@ To add the component to your project, the following steps should be taken:
 </window>
 ```
 
-## Data Model
+# Data Model
 
 ### Search Field
 
@@ -120,7 +141,7 @@ Search Field provides one or several search strategies that are called for each 
 
 Search Strategy defines which objects should be returned as a result of the current search request.
 
-## SearchEntry
+### SearchEntry
 
 SearchEntry is an interface designed to work with search result objects. Each SearchEntry has an id, caption
 and the name of a search strategy that it belongs to specified.
@@ -138,7 +159,7 @@ SearchContext provides the context dependent data for the search mechanism, e.g.
 HeaderEntry implements a header for grouping strategy results.
 
 
-## Usage
+# Usage
 
 Let us consider an example of how the component can be of use. Start by searching for a system user. The component finds
 the required user and opens User Editor.
@@ -153,7 +174,7 @@ lc.setQueryString("select u from sec$User u where u.loginLowerCase like concat('
 
 The sections below present several options to define search strategies.
 
-#### Using A Spring Bean As Search Strategy:
+### Using A Spring Bean As Search Strategy
 
 **Spring bean**:
 ```java
@@ -259,7 +280,7 @@ public class MyWindowController extends AbstractWindow {
 }
 ```
 
-#### Using Programmatic Strategy
+### Using Programmatic Strategy
 
 **Screen controller**:
 
