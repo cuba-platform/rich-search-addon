@@ -86,7 +86,7 @@ dependencies {
 
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.4.0'
+def hsql = 'org.hsqldb:hsqldb:2.5.2'
 
 configure([globalModule, coreModule, guiModule, webModule]) {
     apply(plugin: 'java')
